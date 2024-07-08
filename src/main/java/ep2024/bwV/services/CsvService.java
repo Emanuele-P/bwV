@@ -1,16 +1,23 @@
 package ep2024.bwV.services;
 
-import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvValidationException;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
+import ep2024.bwV.csv.ComuneCsv;
+import ep2024.bwV.csv.ProvinciaCsv;
 import ep2024.bwV.entities.Comune;
 import ep2024.bwV.entities.Provincia;
+import ep2024.bwV.exceptions.NotFoundException;
 import ep2024.bwV.repositories.ComuneRepository;
 import ep2024.bwV.repositories.ProvinciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
-import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,47 +30,81 @@ public class CsvService {
     private ComuneRepository comuneRepository;
 
     public void readProvince(String filePath) {
-        try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
-            String[] nextLine;
-            while ((nextLine = reader.readNext()) != null) {
-                if (nextLine.length >= 3) {
-                    String sigla = nextLine[0];
-                    String nome = nextLine[1];
-                    String regione = nextLine[2];
-                    Provincia provincia = new Provincia(nome, sigla);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new ClassPathResource(filePath).getInputStream(), StandardCharsets.UTF_8))) {
+            CsvToBean<ProvinciaCsv> csvToBean = new CsvToBeanBuilder<ProvinciaCsv>(reader)
+                    .withType(ProvinciaCsv.class)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .withSeparator(';')
+                    .withSkipLines(1)
+                    .build();
+
+            List<ProvinciaCsv> provinciaCsvList = csvToBean.parse();
+            for (ProvinciaCsv provinciaCsv : provinciaCsvList) {
+                Optional<Provincia> existingProvincia = provinciaRepository.findByNome(provinciaCsv.getNome());
+                switch (provinciaCsv.getNome()) {
+                    case "Roma":
+                        provinciaCsv.setSigla("RM");
+                        break;
+                    case "Pesaro e Urbino":
+                        provinciaCsv.setSigla("PU");
+                        break;
+                    case "La Spezia":
+                        provinciaCsv.setSigla("SP");
+                        break;
+                    case "Monza e della Brianza":
+                        provinciaCsv.setSigla("MB");
+                        break;
+                    case "Bolzano/Bozen":
+                        provinciaCsv.setNome("Bolzano");
+                        provinciaCsv.setSigla("BZ");
+                        break;
+                    case "Verbano-Cusio-Ossola":
+                        provinciaCsv.setSigla("VB");
+                        break;
+                    default:
+                        break;
+                }
+                if (existingProvincia.isEmpty()) {
+                    Provincia provincia = new Provincia(provinciaCsv.getNome(), provinciaCsv.getSigla());
                     provinciaRepository.save(provincia);
                     System.out.println("Saved province: " + provincia.getNome());
                 }
             }
-        } catch (IOException | CsvValidationException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void readComuni(String filePath) {
-        try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
-            String[] nextLine;
-            while ((nextLine = reader.readNext()) != null) {
-                if (nextLine.length >= 4) {
-                    String codiceProvincia = nextLine[0];
-                    String codiceComune = nextLine[1];
-                    String nomeComune = nextLine[2];
-                    String nomeProvincia = nextLine[3];
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new ClassPathResource(filePath).getInputStream(), StandardCharsets.UTF_8))) {
+            CsvToBean<ComuneCsv> csvToBean = new CsvToBeanBuilder<ComuneCsv>(reader)
+                    .withType(ComuneCsv.class)
+                    .withIgnoreLeadingWhiteSpace(true)
+                    .withSeparator(';')
+                    .withSkipLines(1)
+                    .build();
 
-                    Optional<Provincia> optionalProvincia = provinciaRepository.findBySigla(codiceProvincia);
-                    Provincia provincia = optionalProvincia.orElseGet(() -> {
-                        Provincia newProvincia = new Provincia(nomeProvincia, codiceProvincia);
-                        provinciaRepository.save(newProvincia);
-                        return newProvincia;
-                    });
+            List<ComuneCsv> comuneCsvList = csvToBean.parse();
+            for (ComuneCsv comuneCsv : comuneCsvList) {
+                Optional<Provincia> optionalProvincia = provinciaRepository.findByNome(comuneCsv.getNomeProvincia());
+                Provincia provincia = optionalProvincia.orElseGet(() -> {
+                    Provincia newProvincia = new Provincia(comuneCsv.getNomeProvincia(), comuneCsv.getCodiceProvincia());
+                    provinciaRepository.save(newProvincia);
+                    System.out.println("Saved new province for comune: " + newProvincia.getNome());
+                    return newProvincia;
+                });
 
-                    Comune comune = new Comune(nomeComune, provincia);
-                    comuneRepository.save(comune);
-                    System.out.println("Saved comune: " + comune.getNome());
-                }
+                Comune comune = new Comune(comuneCsv.getNomeComune(), provincia);
+                comuneRepository.save(comune);
+                System.out.println("Saved comune: " + comune.getNome());
             }
-        } catch (IOException | CsvValidationException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public Provincia getProvinceByName(String nome) {
+        return provinciaRepository.findByNome(nome)
+                .orElseThrow(() -> new NotFoundException("Province with name " + nome + " not found"));
     }
 }

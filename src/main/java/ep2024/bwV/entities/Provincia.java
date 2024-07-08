@@ -1,5 +1,6 @@
 package ep2024.bwV.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,6 +21,7 @@ public class Provincia {
     private String sigla;
 
     @OneToMany(mappedBy = "provincia")
+    @JsonIgnore
     private List<Comune> comuni;
 
     public Provincia(String nome, String sigla) {
