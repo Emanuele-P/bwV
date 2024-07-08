@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Optional;
 
 @Service
 public class CsvService {
@@ -25,11 +26,13 @@ public class CsvService {
         try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
-                if (nextLine.length >= 2) {
+                if (nextLine.length >= 3) {
                     String sigla = nextLine[0];
                     String nome = nextLine[1];
+                    String regione = nextLine[2];
                     Provincia provincia = new Provincia(nome, sigla);
                     provinciaRepository.save(provincia);
+                    System.out.println("Saved province: " + provincia.getNome());
                 }
             }
         } catch (IOException | CsvValidationException e) {
@@ -47,14 +50,16 @@ public class CsvService {
                     String nomeComune = nextLine[2];
                     String nomeProvincia = nextLine[3];
 
-                    Provincia provincia = provinciaRepository.findBySigla(codiceProvincia);
-                    if (provincia == null) {
-                        provincia = new Provincia(nomeProvincia, codiceProvincia);
-                        provinciaRepository.save(provincia);
-                    }
+                    Optional<Provincia> optionalProvincia = provinciaRepository.findBySigla(codiceProvincia);
+                    Provincia provincia = optionalProvincia.orElseGet(() -> {
+                        Provincia newProvincia = new Provincia(nomeProvincia, codiceProvincia);
+                        provinciaRepository.save(newProvincia);
+                        return newProvincia;
+                    });
 
                     Comune comune = new Comune(nomeComune, provincia);
                     comuneRepository.save(comune);
+                    System.out.println("Saved comune: " + comune.getNome());
                 }
             }
         } catch (IOException | CsvValidationException e) {

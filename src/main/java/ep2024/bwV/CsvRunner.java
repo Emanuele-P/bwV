@@ -13,7 +13,12 @@ public class CsvRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        csvService.readProvince("src/main/resources/data/province-italiane.csv");
-        csvService.readComuni("src/main/resources/data/comuni-italiani.csv");
+        try {
+            csvService.readProvince("src/main/resources/data/province-italiane.csv");
+            csvService.readComuni("src/main/resources/data/comuni-italiani.csv");
+            System.out.println("CSV files loaded successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
