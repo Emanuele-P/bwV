@@ -14,14 +14,23 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/province")
+@RequestMapping("/provinces")
 public class ProvinceController {
     @Autowired
     private CsvService csvService;
 
-    @GetMapping("/{nome}/cities")
+    @GetMapping("/{nome}")
     public List<Comune> getCityByProvince(@PathVariable String nome) {
         Provincia provincia = csvService.getProvinceByName(nome);
         return provincia.getComuni();
+    }
+
+    @GetMapping("/{nome}/{nomeComune}")
+    public Comune getCityByProvinceAndName(@PathVariable String nome, @PathVariable String nomeComune) {
+        Provincia provincia = csvService.getProvinceByName(nome);
+        return provincia.getComuni().stream()
+                .filter(comune -> comune.getNome().equalsIgnoreCase(nomeComune))
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("Comune with name " + nomeComune + " not found"));
     }
 }

@@ -1,5 +1,6 @@
 package ep2024.bwV.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,15 +21,21 @@ public class Indirizzo {
     private String localita;
     private String cap;
 
-    @OneToOne
+    @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "comune_id")
     private Comune comune;
 
-    public Indirizzo(String via, String civico, String localita, String cap, Comune comune) {
+    @Column(name = "nome_comune")
+    private String nomeComune;
+
+
+    public Indirizzo(String via, String civico, String nomeProvincia, String cap, Comune comune) {
         this.via = via;
         this.civico = civico;
-        this.localita = localita;
+        this.localita = nomeProvincia;
         this.cap = cap;
         this.comune = comune;
+        this.nomeComune = comune.getNome();
     }
 }

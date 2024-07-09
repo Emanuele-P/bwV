@@ -3,6 +3,7 @@ package ep2024.bwV.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -21,8 +22,8 @@ public class Comune {
     @JoinColumn(name = "provincia_id")
     private Provincia provincia;
 
-    @OneToOne(mappedBy = "comune")
-    private Indirizzo indirizzo;
+    @OneToMany(mappedBy = "comune")
+    private List<Indirizzo> indirizzi;
 
     public Comune(String nome, Provincia provincia) {
         this.nome = nome;
