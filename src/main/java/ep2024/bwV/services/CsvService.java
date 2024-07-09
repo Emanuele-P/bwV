@@ -41,6 +41,7 @@ public class CsvService {
             List<ProvinciaCsv> provinciaCsvList = csvToBean.parse();
             for (ProvinciaCsv provinciaCsv : provinciaCsvList) {
                 Optional<Provincia> existingProvincia = provinciaRepository.findByNome(provinciaCsv.getNome());
+
                 switch (provinciaCsv.getNome()) {
                     case "Roma":
                         provinciaCsv.setSigla("RM");
@@ -64,6 +65,7 @@ public class CsvService {
                     default:
                         break;
                 }
+
                 if (existingProvincia.isEmpty()) {
                     Provincia provincia = new Provincia(provinciaCsv.getNome(), provinciaCsv.getSigla());
                     provinciaRepository.save(provincia);
@@ -83,6 +85,15 @@ public class CsvService {
                     .withSeparator(';')
                     .withSkipLines(1)
                     .build();
+
+            provinciaRepository.findByNome("Monza-Brianza").ifPresent(provincia -> {
+                provinciaRepository.delete(provincia);
+                System.out.println("Deleted province: Monza-Brianza");
+
+                Provincia newProvincia = new Provincia("Monza e della Brianza", "MB");
+                provinciaRepository.save(newProvincia);
+                System.out.println("Saved new province: Monza e della Brianza with sigla MB");
+            });
 
             List<ComuneCsv> comuneCsvList = csvToBean.parse();
             for (ComuneCsv comuneCsv : comuneCsvList) {
