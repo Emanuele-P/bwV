@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -31,7 +30,7 @@ public class Cliente {
 
     private LocalDate dataInserimento;
 
-    private LocalDateTime dataUltimoContatto;
+    private LocalDate dataUltimoContatto;
 
     private Long fatturatoAnnuale;
 
@@ -50,13 +49,13 @@ public class Cliente {
     private String logoAziendale;
 
     private String indirizzo;
-
+    @Enumerated(EnumType.STRING)
     private TipoCliente tipoCliente;
     @OneToOne
-    @JoinColumn(name = "utente_email")
-    private Utente utente;
+    @JoinColumn(name = "user_email")
+    private User user;
 
-    public Cliente(String ragioneSociale, int partitaIva, String email, LocalDate dataInserimento, LocalDateTime dataUltimoContatto, Long fatturatoAnnuale, String pec, int telefono, String emailContatto, String nomeContatto, String cognomeContatto, int telefonoContatto, String indirizzo, TipoCliente tipoCliente, Utente utente) {
+    public Cliente(String ragioneSociale, int partitaIva, String email, LocalDate dataInserimento, LocalDate dataUltimoContatto, Long fatturatoAnnuale, String pec, int telefono, String emailContatto, String nomeContatto, String cognomeContatto, int telefonoContatto, String indirizzo, TipoCliente tipoCliente) {
         this.ragioneSociale = ragioneSociale;
         this.partitaIva = partitaIva;
         this.email = email;
@@ -71,6 +70,6 @@ public class Cliente {
         this.telefonoContatto = telefonoContatto;
         this.indirizzo = indirizzo;
         this.tipoCliente = tipoCliente;
-        this.utente = utente;
+
     }
 }

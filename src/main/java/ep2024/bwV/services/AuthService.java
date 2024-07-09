@@ -1,6 +1,6 @@
 package ep2024.bwV.services;
 
-import ep2024.bwV.entities.Utente;
+import ep2024.bwV.entities.User;
 import ep2024.bwV.exceptions.UnauthorizedException;
 import ep2024.bwV.payloads.UserLoginDTO;
 import ep2024.bwV.security.JWTTools;
@@ -23,7 +23,7 @@ public class AuthService {
 
     public String authenticateUserAndGenerateToken(UserLoginDTO payload) {
 
-        Utente user = this.usersService.findByEmail(payload.email());
+        User user = this.usersService.findByEmail(payload.email());
 
         if (bcrypt.matches(payload.password(), user.getPassword())) {
 

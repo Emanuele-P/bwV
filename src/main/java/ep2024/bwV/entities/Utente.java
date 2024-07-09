@@ -1,7 +1,6 @@
 package ep2024.bwV.entities;
 
 
-import ep2024.bwV.enums.TipoUtente;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -10,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -21,7 +19,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Utente implements UserDetails {
+public abstract class Utente implements UserDetails {
     @Id
     @GeneratedValue
     @Setter(AccessLevel.NONE)
@@ -37,22 +35,23 @@ public class Utente implements UserDetails {
 
     private String username;
 
-    private String avatar;
+    private String ruolo;
 
-    private TipoUtente tipoUtente;
 
-    public Utente(String password, String email, String name, String username, String surname) {
+    public Utente(String password, String email, String name, String username, String surname, String ruolo) {
         this.password = password;
         this.email = email;
         this.name = name;
         this.username = username;
         this.surname = surname;
-        this.tipoUtente = TipoUtente.USER;
+        this.ruolo = ruolo;
+
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(this.tipoUtente.name()));
+
+        return List.of();
     }
 
     @Override

@@ -1,6 +1,6 @@
 package ep2024.bwV.services;
 
-import ep2024.bwV.entities.Utente;
+import ep2024.bwV.entities.User;
 import ep2024.bwV.exceptions.BadRequestException;
 import ep2024.bwV.exceptions.NotFoundException;
 import ep2024.bwV.payloads.NewUserDTO;
@@ -25,14 +25,14 @@ public class UserService {
     @Autowired
     private PasswordEncoder bcrypt;
 
-    public Page<Utente> getUsers(int pageNumber, int pageSize, String sortBy) {
+    public Page<User> getUsers(int pageNumber, int pageSize, String sortBy) {
         if (pageSize > 100) pageSize = 100;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
         return usersRepository.findAll(pageable);
     }
 
-    public Utente save(NewUserDTO body) {
-        // 1. Verifico se l'email è già in uso
+    public User save(NewUserDTO body) {
+
         this.usersRepository.findByEmail(body.email()).ifPresent(
                 // 1.1 Se lo è triggero un errore
                 user -> {
@@ -41,20 +41,20 @@ public class UserService {
         );
 
 
-        Utente newUser = new Utente(body.name(), body.surname(), body.email(), bcrypt.encode(body.password()), body.username());
-
+        User newUser = new User(bcrypt.encode(body.password()), body.email(), body.name(), body.surname(), body.username(), null, null);
+        newUser.setRuolo("User");
         newUser.setAvatar("https://ui-avatars.com/api/?name=" + body.name() + "+" + body.surname());
 
 
         return usersRepository.save(newUser);
     }
 
-    public Utente findById(UUID userId) {
+    public User findById(UUID userId) {
         return this.usersRepository.findById(userId).orElseThrow(() -> new NotFoundException(userId));
     }
 
-    public Utente findByIdAndUpdate(UUID userId, Utente modifiedUser) {
-        Utente found = this.findById(userId);
+    public User findByIdAndUpdate(UUID userId, User modifiedUser) {
+        User found = this.findById(userId);
         found.setName(modifiedUser.getName());
         found.setSurname(modifiedUser.getSurname());
         found.setEmail(modifiedUser.getEmail());
@@ -64,12 +64,11 @@ public class UserService {
     }
 
     public void findByIdAndDelete(UUID userId) {
-        Utente found = this.findById(userId);
+        User found = this.findById(userId);
         this.usersRepository.delete(found);
     }
 
-    public Utente findByEmail(String email) {
+    public User findByEmail(String email) {
         return usersRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Utente con email " + email + " non trovato!"));
     }
-
 }
