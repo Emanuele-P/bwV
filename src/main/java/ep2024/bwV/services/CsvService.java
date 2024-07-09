@@ -17,8 +17,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.text.Normalizer;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 public class CsvService {
@@ -46,21 +48,20 @@ public class CsvService {
                     case "Roma":
                         provinciaCsv.setSigla("RM");
                         break;
-                    case "Pesaro e Urbino":
-                        provinciaCsv.setSigla("PU");
+                    case "Pesaro-Urbino":
+                        provinciaCsv.setNome("Pesaro e Urbino");
                         break;
-                    case "La Spezia":
-                        provinciaCsv.setSigla("SP");
+                    case "Ascoli-Piceno":
+                        provinciaCsv.setNome("Ascoli Piceno");
                         break;
-                    case "Monza e della Brianza":
-                        provinciaCsv.setSigla("MB");
+                    case "Forli-Cesena":
+                        provinciaCsv.setNome("Forlì-Cesena");
                         break;
-                    case "Bolzano/Bozen":
-                        provinciaCsv.setNome("Bolzano");
-                        provinciaCsv.setSigla("BZ");
+                    case "Verbania":
+                        provinciaCsv.setNome("Verbano-Cusio-Ossola");
                         break;
-                    case "Verbano-Cusio-Ossola":
-                        provinciaCsv.setSigla("VB");
+                    case "Reggio-Calabria":
+                        provinciaCsv.setNome("Reggio Calabria");
                         break;
                     default:
                         break;
@@ -88,15 +89,49 @@ public class CsvService {
 
             provinciaRepository.findByNome("Monza-Brianza").ifPresent(provincia -> {
                 provinciaRepository.delete(provincia);
-                System.out.println("Deleted province: Monza-Brianza");
-
-                Provincia newProvincia = new Provincia("Monza e della Brianza", "MB");
-                provinciaRepository.save(newProvincia);
-                System.out.println("Saved new province: Monza e della Brianza with sigla MB");
+                Provincia p = new Provincia("Monza e della Brianza", "MB");
+                provinciaRepository.save(p);
+            });
+            provinciaRepository.findByNome("Vibo-Valentia").ifPresent(provincia ->{
+                provinciaRepository.delete(provincia);
+                Provincia p = new Provincia("Vibo Valentia", "VV");
+                provinciaRepository.save(p);
+            });
+            provinciaRepository.findByNome("La-Spezia").ifPresent(provincia ->{
+                provinciaRepository.delete(provincia);
+                Provincia p = new Provincia("La Spezia", "SP");
+                provinciaRepository.save(p);
+            });
+            provinciaRepository.findByNome("Reggio-Emilia").ifPresent(provincia ->{
+                provinciaRepository.delete(provincia);
+                Provincia p = new Provincia("Reggio Emilia", "RE");
+                provinciaRepository.save(p);
+            });
+            provinciaRepository.findByNome("Carbonia Iglesias").ifPresent(provincia ->{
+                provinciaRepository.delete(provincia);
+                Provincia p = new Provincia("Sud Sardegna", "SU");
+                provinciaRepository.save(p);
+            });
+            provinciaRepository.findByNome("Medio Campidano").ifPresent(provincia ->{
+                provinciaRepository.delete(provincia);
             });
 
             List<ComuneCsv> comuneCsvList = csvToBean.parse();
             for (ComuneCsv comuneCsv : comuneCsvList) {
+                switch (comuneCsv.getNomeProvincia()) {
+                    case "Bolzano/Bozen":
+                        comuneCsv.setNomeProvincia("Bolzano");
+                        break;
+                    case "Valle d'Aosta/Vallée d'Aoste":
+                        comuneCsv.setNomeProvincia("Aosta");
+                        break;
+                    case "Reggio nell'Emilia":
+                        comuneCsv.setNomeProvincia("Reggio Emilia");
+                        break;
+                    default:
+                        break;
+                }
+
                 Optional<Provincia> optionalProvincia = provinciaRepository.findByNome(comuneCsv.getNomeProvincia());
                 Provincia provincia = optionalProvincia.orElseGet(() -> {
                     Provincia newProvincia = new Provincia(comuneCsv.getNomeProvincia(), comuneCsv.getCodiceProvincia());
@@ -115,7 +150,27 @@ public class CsvService {
     }
 
     public Provincia getProvinceByName(String nome) {
-        return provinciaRepository.findByNome(nome)
-                .orElseThrow(() -> new NotFoundException("Province with name " + nome + " not found"));
+        String normalizedNome = normalizeString(nome);
+        List<Provincia> province = provinciaRepository.findAll();
+
+        for (Provincia provincia : province) {
+            if (normalizeString(provincia.getNome()).equals(normalizedNome)) {
+                return provincia;
+            }
+        }
+
+        throw new NotFoundException("Province with name " + nome + " not found");
+    }
+
+    public String normalizeString(String input) {
+        if (input == null) {
+            return null;
+        }
+        Pattern diacritical = Pattern.compile("\\p{M}");
+        Pattern unwantedChar = Pattern.compile("[\\s'-]");
+        String normalized = Normalizer.normalize(input, Normalizer.Form.NFKD);
+        String noAccents = diacritical.matcher(normalized).replaceAll("");
+
+        return unwantedChar.matcher(noAccents).replaceAll("").toLowerCase();
     }
 }
