@@ -42,35 +42,13 @@ public class CsvService {
 
             List<ProvinciaCsv> provinciaCsvList = csvToBean.parse();
             for (ProvinciaCsv provinciaCsv : provinciaCsvList) {
+                adjustProvinciaName(provinciaCsv);
+
                 Optional<Provincia> existingProvincia = provinciaRepository.findByNome(provinciaCsv.getNome());
-
-                switch (provinciaCsv.getNome()) {
-                    case "Roma":
-                        provinciaCsv.setSigla("RM");
-                        break;
-                    case "Pesaro-Urbino":
-                        provinciaCsv.setNome("Pesaro e Urbino");
-                        break;
-                    case "Ascoli-Piceno":
-                        provinciaCsv.setNome("Ascoli Piceno");
-                        break;
-                    case "Forli-Cesena":
-                        provinciaCsv.setNome("Forlì-Cesena");
-                        break;
-                    case "Verbania":
-                        provinciaCsv.setNome("Verbano-Cusio-Ossola");
-                        break;
-                    case "Reggio-Calabria":
-                        provinciaCsv.setNome("Reggio Calabria");
-                        break;
-                    default:
-                        break;
-                }
-
                 if (existingProvincia.isEmpty()) {
                     Provincia provincia = new Provincia(provinciaCsv.getNome(), provinciaCsv.getSigla());
                     provinciaRepository.save(provincia);
-                    System.out.println("Saved province: " + provincia.getNome());
+//                    System.out.println("Saved province: " + provincia.getNome());
                 }
             }
         } catch (IOException e) {
@@ -87,50 +65,12 @@ public class CsvService {
                     .withSkipLines(1)
                     .build();
 
-            provinciaRepository.findByNome("Monza-Brianza").ifPresent(provincia -> {
-                provinciaRepository.delete(provincia);
-                Provincia p = new Provincia("Monza e della Brianza", "MB");
-                provinciaRepository.save(p);
-            });
-            provinciaRepository.findByNome("Vibo-Valentia").ifPresent(provincia ->{
-                provinciaRepository.delete(provincia);
-                Provincia p = new Provincia("Vibo Valentia", "VV");
-                provinciaRepository.save(p);
-            });
-            provinciaRepository.findByNome("La-Spezia").ifPresent(provincia ->{
-                provinciaRepository.delete(provincia);
-                Provincia p = new Provincia("La Spezia", "SP");
-                provinciaRepository.save(p);
-            });
-            provinciaRepository.findByNome("Reggio-Emilia").ifPresent(provincia ->{
-                provinciaRepository.delete(provincia);
-                Provincia p = new Provincia("Reggio Emilia", "RE");
-                provinciaRepository.save(p);
-            });
-            provinciaRepository.findByNome("Carbonia Iglesias").ifPresent(provincia ->{
-                provinciaRepository.delete(provincia);
-                Provincia p = new Provincia("Sud Sardegna", "SU");
-                provinciaRepository.save(p);
-            });
-            provinciaRepository.findByNome("Medio Campidano").ifPresent(provincia ->{
-                provinciaRepository.delete(provincia);
-            });
+            removeAndRecreateProvinces();
 
             List<ComuneCsv> comuneCsvList = csvToBean.parse();
             for (ComuneCsv comuneCsv : comuneCsvList) {
-                switch (comuneCsv.getNomeProvincia()) {
-                    case "Bolzano/Bozen":
-                        comuneCsv.setNomeProvincia("Bolzano");
-                        break;
-                    case "Valle d'Aosta/Vallée d'Aoste":
-                        comuneCsv.setNomeProvincia("Aosta");
-                        break;
-                    case "Reggio nell'Emilia":
-                        comuneCsv.setNomeProvincia("Reggio Emilia");
-                        break;
-                    default:
-                        break;
-                }
+
+            adjustComuneName(comuneCsv);
 
                 Optional<Provincia> optionalProvincia = provinciaRepository.findByNome(comuneCsv.getNomeProvincia());
                 Provincia provincia = optionalProvincia.orElseGet(() -> {
@@ -140,14 +80,99 @@ public class CsvService {
                     return newProvincia;
                 });
 
-                Comune comune = new Comune(comuneCsv.getNomeComune(), provincia);
-                comuneRepository.save(comune);
-                System.out.println("Saved comune: " + comune.getNome());
+                Optional<Comune> existingComune = comuneRepository.findByNomeAndProvincia(comuneCsv.getNomeComune(), provincia);
+                if (existingComune.isEmpty()) {
+                    Comune comune = new Comune(comuneCsv.getNomeComune(), provincia);
+                    comuneRepository.save(comune);
+                    System.out.println("Saved comune: " + comune.getNome());
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+   private void adjustProvinciaName (ProvinciaCsv provinciaCsv) {
+       switch (provinciaCsv.getNome()) {
+           case "Roma":
+               provinciaCsv.setSigla("RM");
+               break;
+           case "Pesaro-Urbino":
+               provinciaCsv.setNome("Pesaro e Urbino");
+               break;
+           case "Ascoli-Piceno":
+               provinciaCsv.setNome("Ascoli Piceno");
+               break;
+           case "Forli-Cesena":
+               provinciaCsv.setNome("Forlì-Cesena");
+               break;
+           case "Verbania":
+               provinciaCsv.setNome("Verbano-Cusio-Ossola");
+               break;
+           case "Reggio-Calabria":
+               provinciaCsv.setNome("Reggio Calabria");
+               break;
+           default:
+               break;
+       }
+   }
+
+   private void adjustComuneName (ComuneCsv comuneCsv) {
+       switch (comuneCsv.getNomeProvincia()) {
+           case "Bolzano/Bozen":
+               comuneCsv.setNomeProvincia("Bolzano");
+               break;
+           case "Valle d'Aosta/Vallée d'Aoste":
+               comuneCsv.setNomeProvincia("Aosta");
+               break;
+           case "Reggio nell'Emilia":
+               comuneCsv.setNomeProvincia("Reggio Emilia");
+               break;
+           default:
+               break;
+       }
+   }
+
+   private void removeAndRecreateProvinces () {
+       provinciaRepository.findByNome("Monza-Brianza").ifPresent(provincia -> {
+           provinciaRepository.delete(provincia);
+           if (provinciaRepository.findByNome("Monza e della Brianza").isEmpty()) {
+               Provincia p = new Provincia("Monza e della Brianza", "MB");
+               provinciaRepository.save(p);
+           }
+       });
+       provinciaRepository.findByNome("Vibo-Valentia").ifPresent(provincia ->{
+           provinciaRepository.delete(provincia);
+           if (provinciaRepository.findByNome("Vibo Valentia").isEmpty()) {
+               Provincia p = new Provincia("Vibo Valentia", "VV");
+               provinciaRepository.save(p);
+           }
+       });
+       provinciaRepository.findByNome("La-Spezia").ifPresent(provincia ->{
+           provinciaRepository.delete(provincia);
+           if (provinciaRepository.findByNome("La Spezia").isEmpty()) {
+               Provincia p = new Provincia("La Spezia", "SP");
+               provinciaRepository.save(p);
+           }
+       });
+       provinciaRepository.findByNome("Reggio-Emilia").ifPresent(provincia ->{
+           provinciaRepository.delete(provincia);
+           if (provinciaRepository.findByNome("Reggio Emilia").isEmpty()) {
+               Provincia p = new Provincia("Reggio Emilia", "RE");
+               provinciaRepository.save(p);
+           }
+       });
+       provinciaRepository.findByNome("Carbonia Iglesias").ifPresent(provincia ->{
+           provinciaRepository.delete(provincia);
+           if (provinciaRepository.findByNome("Sud Sardegna").isEmpty()) {
+               Provincia p = new Provincia("Sud Sardegna", "SU");
+               provinciaRepository.save(p);
+           }
+       });
+       provinciaRepository.findByNome("Medio Campidano").ifPresent(provincia ->{
+           provinciaRepository.delete(provincia);
+       });
+   }
 
     public Provincia getProvinceByName(String nome) {
         String normalizedNome = normalizeString(nome);
