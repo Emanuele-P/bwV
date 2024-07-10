@@ -22,6 +22,10 @@ public class Fatture {
     @ManyToOne
     @JoinColumn(name = "stato_id")
     private StatoFatture stato;
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente ;
+
 
     public Fatture(double importo, LocalDateTime data,long numero) {
         this.importo = importo;

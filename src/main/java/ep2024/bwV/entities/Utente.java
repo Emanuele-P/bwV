@@ -1,9 +1,11 @@
 package ep2024.bwV.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,7 +39,6 @@ public abstract class Utente implements UserDetails {
     private String username;
 
     private String ruolo;
-
 
     public Utente(String password, String email, String name, String username, String surname, String ruolo) {
         this.password = password;
