@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/fatture")
+@RequestMapping("/invoices")
 public class FattureController {
     @Autowired
     private FattureService fattureService;

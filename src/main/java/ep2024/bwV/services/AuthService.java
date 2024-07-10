@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class AuthService {
 
     @Autowired
-    private UserService usersService;
+    private UsersService usersService;
 
     @Autowired
     private PasswordEncoder bcrypt;
@@ -22,14 +22,11 @@ public class AuthService {
 
 
     public String authenticateUserAndGenerateToken(UserLoginDTO payload) {
-
-        User user = this.usersService.findByEmail(payload.email());
+        User user = usersService.findByEmail(payload.email());
 
         if (bcrypt.matches(payload.password(), user.getPassword())) {
-
             return jwtTools.createToken(user);
         } else {
-
             throw new UnauthorizedException("Credenziali non corrette!");
         }
     }

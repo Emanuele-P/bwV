@@ -6,7 +6,7 @@ import ep2024.bwV.payloads.NewUserDTO;
 import ep2024.bwV.payloads.UserLoginDTO;
 import ep2024.bwV.payloads.UserLoginResponseDTO;
 import ep2024.bwV.services.AuthService;
-import ep2024.bwV.services.UserService;
+import ep2024.bwV.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -21,7 +21,7 @@ public class AuthController {
     private AuthService authService;
 
     @Autowired
-    private UserService userService;
+    private UsersService usersService;
 
     @PostMapping("/login")
     public UserLoginResponseDTO login(@RequestBody UserLoginDTO payload) {
@@ -37,6 +37,6 @@ public class AuthController {
 
             throw new BadRequestException(validationResult.getAllErrors());
         }
-        return userService.save(body);
+        return usersService.save(body);
     }
 }

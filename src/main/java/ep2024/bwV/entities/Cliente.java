@@ -88,6 +88,5 @@ public class Cliente {
         this.telefonoContatto = telefonoContatto;
         this.indirizzo = indirizzo;
         this.tipoCliente = tipoCliente;
-
     }
 }

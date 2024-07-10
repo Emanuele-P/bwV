@@ -4,6 +4,7 @@ import ep2024.bwV.entities.Indirizzo;
 import ep2024.bwV.payloads.NewAdressDTO;
 import ep2024.bwV.services.IndirizziService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
@@ -35,6 +36,7 @@ public class IndirizziController {
 
     //Find ALL
     @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<Indirizzo> findAllAddresses() {
         return indirizziService.findAllAddresses();
     }
