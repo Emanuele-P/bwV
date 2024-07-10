@@ -4,7 +4,6 @@ import ep2024.bwV.enums.TipoCliente;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public record NewClienteDTO(
         @NotEmpty
@@ -16,7 +15,7 @@ public record NewClienteDTO(
         @NotEmpty
         LocalDate dataInserimento,
         @NotEmpty
-        LocalDateTime dataUltimoContatto,
+        LocalDate dataUltimoContatto,
         @NotEmpty
         Long fatturatoAnnuale,
         @NotEmpty

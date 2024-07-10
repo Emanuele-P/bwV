@@ -34,9 +34,16 @@ public class UserService {
     public User save(NewUserDTO body) {
 
         this.usersRepository.findByEmail(body.email()).ifPresent(
-                // 1.1 Se lo è triggero un errore
+
                 user -> {
                     throw new BadRequestException("L'email " + body.email() + " è già in uso!");
+                }
+        );
+
+        this.usersRepository.findByNameAndSurname(body.name(), body.surname()).ifPresent(
+
+                user -> {
+                    throw new BadRequestException("L'utente " + body.name() + body.surname() + " è già registrato");
                 }
         );
 
@@ -53,13 +60,13 @@ public class UserService {
         return this.usersRepository.findById(userId).orElseThrow(() -> new NotFoundException(userId));
     }
 
-    public User findByIdAndUpdate(UUID userId, User modifiedUser) {
+    public User findByIdAndUpdate(UUID userId, NewUserDTO modifiedUser) {
         User found = this.findById(userId);
-        found.setName(modifiedUser.getName());
-        found.setSurname(modifiedUser.getSurname());
-        found.setEmail(modifiedUser.getEmail());
-        found.setPassword(modifiedUser.getPassword());
-        found.setAvatar("https://ui-avatars.com/api/?name=" + modifiedUser.getName() + "+" + modifiedUser.getSurname());
+        found.setName(modifiedUser.name());
+        found.setSurname(modifiedUser.surname());
+        found.setEmail(modifiedUser.email());
+        found.setPassword(bcrypt.encode(modifiedUser.password()));
+        found.setAvatar("https://ui-avatars.com/api/?name=" + modifiedUser.name() + "+" + modifiedUser.surname());
         return this.usersRepository.save(found);
     }
 
