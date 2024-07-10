@@ -24,6 +24,7 @@ private boolean caricato;
 private boolean in_gestione;
 private boolean consegnato;
 private boolean controllato;
+
     @OneToMany(mappedBy = "stato")
     @JsonIgnore
     private List<Fatture> fatture;
@@ -33,5 +34,6 @@ private boolean controllato;
         this.caricato = caricato;
         this.in_gestione = in_gestione;
         this.consegnato = consegnato;
+
     }
 }

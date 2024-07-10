@@ -1,8 +1,10 @@
 package ep2024.bwV.controllers;
 
 import ep2024.bwV.entities.Fatture;
+import ep2024.bwV.entities.StatoFatture;
 import ep2024.bwV.payloads.NewFatturaDTO;
 import ep2024.bwV.services.FattureService;
+import ep2024.bwV.services.StatoFattureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -16,14 +18,12 @@ import java.util.UUID;
 public class FattureController {
     @Autowired
     private FattureService fattureService;
+    @Autowired
+    private StatoFattureService statoFattureService;
     @GetMapping
     public Page<Fatture> getAllFatture(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
         return fattureService.getFatture(page, size, sortBy);
     }
-//    @GetMapping("/{fatturestato}")
-//    public Fatture findByStato(@PathVariable boolean stato) {
-//        return fattureService.findByStato(stato);
-//    }
 
     @GetMapping("/{fatturenum}")
     public Fatture findByNumero(@PathVariable long numero) {
