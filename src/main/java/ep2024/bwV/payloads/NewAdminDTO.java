@@ -2,7 +2,7 @@ package ep2024.bwV.payloads;
 
 import jakarta.validation.constraints.NotEmpty;
 
-public record NewUserDTO(
+public record NewAdminDTO(
         @NotEmpty(message = "Il nome proprio è un dato obbligatorio!")
         String name,
         @NotEmpty(message = "Il cognome è un dato obbligatorio!")

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class UserService {
+public class UsersService {
 
     @Autowired
     private UsersRepository usersRepository;
@@ -32,27 +32,18 @@ public class UserService {
     }
 
     public User save(NewUserDTO body) {
-
-        this.usersRepository.findByEmail(body.email()).ifPresent(
-
+        usersRepository.findByEmail(body.email()).ifPresent(
                 user -> {
                     throw new BadRequestException("L'email " + body.email() + " è già in uso!");
                 }
         );
-
-        this.usersRepository.findByNameAndSurname(body.name(), body.surname()).ifPresent(
-
+        usersRepository.findByNameAndSurname(body.name(), body.surname()).ifPresent(
                 user -> {
                     throw new BadRequestException("L'utente " + body.name() + body.surname() + " è già registrato");
                 }
         );
 
-
-        User newUser = new User(bcrypt.encode(body.password()), body.email(), body.name(), body.surname(), body.username(), null, null);
-        newUser.setRuolo("User");
-        newUser.setAvatar("https://ui-avatars.com/api/?name=" + body.name() + "+" + body.surname());
-
-
+        User newUser = new User(bcrypt.encode(body.password()), body.email(), body.name(), body.surname(), body.username(), "https://ui-avatars.com/api/?name=" + body.name() + "+" + body.surname());
         return usersRepository.save(newUser);
     }
 
