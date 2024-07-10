@@ -86,4 +86,8 @@ public class ClienteService {
     public Cliente findByPec(String pec) {
         return clienteRepository.findByPec(pec).orElseThrow(() -> new NotFoundException("Il cliente con la pec" + pec + " non trovato"));
     }
+
+    public Cliente findByPartitaIva(int partitaIva) {
+        return clienteRepository.findByPartitaIva(partitaIva).orElseThrow(() -> new NotFoundException("Il cliente con " + partitaIva + "non trovato"));
+    }
 }
