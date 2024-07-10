@@ -34,7 +34,7 @@ public record NewClienteDTO(
         String logoAziendale,
         @NotEmpty
         String indirizzo,
-        @NotEmpty
+
         TipoCliente tipoCliente
 ) {
 }
