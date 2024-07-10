@@ -27,9 +27,11 @@ public class ProvinceController {
 
     @GetMapping("/{nome}/{nomeComune}")
     public Comune getCityByProvinceAndName(@PathVariable String nome, @PathVariable String nomeComune) {
-        Provincia provincia = csvService.getProvinceByName(nome);
+        String normalizedNomeProvincia = csvService.normalizeString(nome);
+        String normalizedNomeComune = csvService.normalizeString(nomeComune);
+        Provincia provincia = csvService.getProvinceByName(normalizedNomeProvincia);
         return provincia.getComuni().stream()
-                .filter(comune -> comune.getNome().equalsIgnoreCase(nomeComune))
+                .filter(comune -> csvService.normalizeString(comune.getNome()).equals(normalizedNomeComune))
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException("Comune with name " + nomeComune + " not found"));
     }

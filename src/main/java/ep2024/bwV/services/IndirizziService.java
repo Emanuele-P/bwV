@@ -44,7 +44,7 @@ public class IndirizziService {
 
         existingAddress.setVia(body.via());
         existingAddress.setCivico(body.civico());
-//        existingAddress.setNomeProvincia(nomeProvincia);
+        existingAddress.setLocalita(nomeProvincia);
         existingAddress.setCap(body.cap());
         existingAddress.setComune(comune);
         existingAddress.setNomeComune(nomeComune);

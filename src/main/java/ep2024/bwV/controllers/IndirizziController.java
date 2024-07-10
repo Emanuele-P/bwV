@@ -1,36 +1,47 @@
 package ep2024.bwV.controllers;
 
-import ep2024.bwV.entities.Comune;
 import ep2024.bwV.entities.Indirizzo;
-import ep2024.bwV.exceptions.NotFoundException;
 import ep2024.bwV.payloads.NewAdressDTO;
-import ep2024.bwV.repositories.ComuneRepository;
-import ep2024.bwV.repositories.IndirizzoRepository;
+import ep2024.bwV.services.IndirizziService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/addresses")
 public class IndirizziController {
-    @Autowired
-    private ComuneRepository comuneRepository;
 
     @Autowired
-    private IndirizzoRepository indirizzoRepository;
+    private IndirizziService indirizziService;
 
+    //SAVE
     @PostMapping
     public Indirizzo saveAddress(@RequestBody NewAdressDTO body) {
-        Comune comune = comuneRepository.findById(body.comuneId())
-                .orElseThrow(() -> new NotFoundException("Comune with id " + body.comuneId() + " not found"));
+        return indirizziService.saveAddress(body);
+    }
 
-        String nomeComune = comune.getNome();
-        String nomeProvincia = comune.getProvincia().getNome();
+    //UPDATE
+    @PutMapping("/{id}")
+    public Indirizzo updateAddress(@PathVariable UUID id, @RequestBody NewAdressDTO body) {
+        return indirizziService.updateAddress(id, body);
+    }
 
-        Indirizzo indirizzo = new Indirizzo(body.via(), body.civico(), nomeProvincia, body.cap(), comune);
-        indirizzo.setNomeComune(nomeComune);
-        return indirizzoRepository.save(indirizzo);
+    //DELETE
+    @DeleteMapping("/{id}")
+    public void deleteAddress(@PathVariable UUID id) {
+        indirizziService.deleteAddress(id);
+    }
+
+    //Find ALL
+    @GetMapping
+    public List<Indirizzo> findAllAddresses() {
+        return indirizziService.findAllAddresses();
+    }
+
+    //Find specific
+    @GetMapping("/{id}")
+    public Indirizzo findAddressById(@PathVariable UUID id) {
+        return indirizziService.findById(id);
     }
 }
