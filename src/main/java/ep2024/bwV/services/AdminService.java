@@ -1,6 +1,7 @@
 package ep2024.bwV.services;
 
 import ep2024.bwV.entities.Admin;
+import ep2024.bwV.entities.User;
 import ep2024.bwV.exceptions.BadRequestException;
 import ep2024.bwV.exceptions.NotFoundException;
 import ep2024.bwV.payloads.NewUtenteDTO;
@@ -32,5 +33,9 @@ public class AdminService {
 
     public Admin findById(UUID adminId) {
         return adminRepository.findById(adminId).orElseThrow(() -> new NotFoundException(adminId));
+    }
+
+    public Admin findByEmail(String email) {
+        return adminRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Admin con email " + email + " non trovato!"));
     }
 }
