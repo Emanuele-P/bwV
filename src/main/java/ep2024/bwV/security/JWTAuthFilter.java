@@ -3,7 +3,7 @@ package ep2024.bwV.security;
 import ep2024.bwV.entities.Admin;
 import ep2024.bwV.entities.User;
 import ep2024.bwV.exceptions.UnauthorizedException;
-import ep2024.bwV.repositories.AdminsRepository;
+import ep2024.bwV.repositories.AdminRepository;
 import ep2024.bwV.repositories.UsersRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -32,7 +32,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     private UsersRepository usersRepository;
 
     @Autowired
-    private AdminsRepository adminRepository;
+    private AdminRepository adminRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

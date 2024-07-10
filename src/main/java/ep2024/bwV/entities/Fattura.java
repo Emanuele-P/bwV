@@ -11,7 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "fatture")
-public class Fatture {
+public class Fattura {
     @Id
     @Setter(AccessLevel.NONE)
     @GeneratedValue
@@ -21,13 +21,13 @@ public class Fatture {
     private long numero;
     @ManyToOne
     @JoinColumn(name = "stato_id")
-    private StatoFatture stato;
+    private StatoFattura stato;
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente ;
 
 
-    public Fatture(double importo, LocalDateTime data,long numero) {
+    public Fattura(double importo, LocalDateTime data, long numero) {
         this.importo = importo;
         this.data = data;
         this.numero=numero;

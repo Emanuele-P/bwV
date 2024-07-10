@@ -1,11 +1,12 @@
 package ep2024.bwV.repositories;
 
-import ep2024.bwV.entities.Admin;
+import ep2024.bwV.entities.Utente;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 import java.util.UUID;
 
-public interface AdminsRepository extends JpaRepository<Admin, UUID> {
-    Optional<Admin> findById(UUID id);
+public interface UtenteRepository extends JpaRepository<Utente, UUID> {
+    Optional<Utente> findById(UUID id);
+
 }
