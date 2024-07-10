@@ -1,13 +1,11 @@
-package ep2024.bwV.entities;
+package ep2024.bwV.payloads;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
-public record NewFattureDTO(
+public record NewFatturaDTO(
         @NotEmpty
         LocalDateTime data,
         @NotNull

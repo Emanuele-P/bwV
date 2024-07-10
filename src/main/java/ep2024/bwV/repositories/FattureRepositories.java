@@ -1,5 +1,6 @@
-package ep2024.bwV.entities;
+package ep2024.bwV.repositories;
 
+import ep2024.bwV.entities.Fatture;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 

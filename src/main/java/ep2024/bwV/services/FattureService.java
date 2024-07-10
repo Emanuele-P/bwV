@@ -1,9 +1,12 @@
-package ep2024.bwV.entities;
+package ep2024.bwV.services;
 
-import exeption.BadRequestException;
-import exeption.NotFoundException;
+import ep2024.bwV.entities.Fatture;
+import ep2024.bwV.exceptions.BadRequestException;
+import ep2024.bwV.exceptions.NotFoundException;
+import ep2024.bwV.payloads.NewFatturaDTO;
+import ep2024.bwV.repositories.FattureRepositories;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +19,7 @@ import java.util.UUID;
 public class FattureService {
     @Autowired
     private FattureRepositories fattureRepositories;
-    public Fatture save(NewFattureDTO body) {
+    public Fatture save(NewFatturaDTO body) {
         this.fattureRepositories.findByNumero(body.numero()).ifPresent(
                 user -> {
                     throw new BadRequestException("L'email " + body.numero() + " è già in uso!");
@@ -29,15 +32,15 @@ public class FattureService {
     }
 
     public Fatture findByNumero(long numero){
-        return fattureRepositories.findByNumero(numero).orElseThrow(() -> new NotFoundException("fattura con numero " + numero + " non trovato!"));
+        return fattureRepositories.findByNumero(numero).orElseThrow(() -> new NotFoundException("Fattura con numero " + numero + " non trovata!"));
     }
     public Fatture findById(UUID id){
-        return fattureRepositories.findById(id).orElseThrow(() -> new NotFoundException("fattura con id " + id + " non trovato!"));
+        return fattureRepositories.findById(id).orElseThrow(() -> new NotFoundException("Fattura con id " + id + " non trovata!"));
     }
 
 
     public Page<Fatture> getFatture(int pageNumber, int pageSize, String sortBy) {
-        if (pageSize > 100) pageSize = 100;
+        if (pageSize > 50) pageSize = 50;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
         return fattureRepositories.findAll(pageable);
     }
