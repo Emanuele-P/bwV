@@ -18,35 +18,29 @@ public class ExceptionsHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorsDTO handleBadRequest(BadRequestException ex) {
         if (ex.getErrorsList() != null) {
-
             String message = ex.getErrorsList().stream().map(objectError -> objectError.getDefaultMessage()).collect(Collectors.joining(". "));
             return new ErrorsDTO(message, LocalDateTime.now());
-
         } else {
-
             return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
         }
     }
 
     @ExceptionHandler(UnauthorizedException.class)
-    // Questo metodo dovrà rispondere con 401
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorsDTO handleUnauthorized(UnauthorizedException ex) {
         return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
     }
 
     @ExceptionHandler(NotFoundException.class)
-    // Questo metodo dovrà rispondere con 404
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorsDTO handleNotFound(NotFoundException ex) {
         return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
     }
 
     @ExceptionHandler(Exception.class)
-    // Questo metodo dovrà rispondere con 500
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorsDTO handleGenericErrors(Exception ex) {
         ex.printStackTrace();
-        return new ErrorsDTO("Problema lato server! Giuro che lo risolveremo presto!", LocalDateTime.now());
+        return new ErrorsDTO("Problema lato server, riprova più tardi", LocalDateTime.now());
     }
 }

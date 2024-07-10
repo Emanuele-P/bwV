@@ -10,6 +10,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "comuni")
 public class Comune {
     @Id
     @GeneratedValue

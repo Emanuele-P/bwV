@@ -21,8 +21,11 @@ public class Config {
         httpSecurity.formLogin(http -> http.disable());
         httpSecurity.csrf(http -> http.disable());
         httpSecurity.sessionManagement(http -> http.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
-        httpSecurity.authorizeHttpRequests(http -> http.requestMatchers("/**").permitAll());
+        httpSecurity.authorizeHttpRequests(http -> http
+                .requestMatchers("/**", "/provinces/**").permitAll()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
+                .requestMatchers("/user/**").hasRole("USER")
+        );
         return httpSecurity.build();
     }
 

@@ -10,6 +10,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "indirizzi")
 public class Indirizzo {
     @Id
     @GeneratedValue

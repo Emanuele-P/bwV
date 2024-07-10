@@ -11,6 +11,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "province")
 public class Provincia {
     @Id
     @GeneratedValue

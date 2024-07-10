@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
+@Table(name = "clienti")
 @NoArgsConstructor
 @ToString
 @Getter
@@ -21,36 +22,46 @@ public class Cliente {
     @GeneratedValue
     @Setter(AccessLevel.NONE)
     private UUID id;
-
+    @Column(name = "ragione_sociale")
     private String ragioneSociale;
-
+    @Column(name = "partita_iva")
     private int partitaIva;
 
     private String email;
 
+    @Column(name = "data_inserimento")
     private LocalDate dataInserimento;
 
+    @Column(name = "data_ultimo_contatto")
     private LocalDate dataUltimoContatto;
 
+    @Column(name = "fatturato_annuale")
     private Long fatturatoAnnuale;
 
     private String pec;
 
     private int telefono;
 
+    @Column(name = "email_contatto")
     private String emailContatto;
 
+    @Column(name = "nome_contatto")
     private String nomeContatto;
 
+    @Column(name = "cognome_contatto")
     private String cognomeContatto;
 
+    @Column(name = "telefono_contatto")
     private int telefonoContatto;
 
+    @Column(name = "logo_aziendale")
     private String logoAziendale;
 
     private String indirizzo;
+
     @Enumerated(EnumType.STRING)
     private TipoCliente tipoCliente;
+
     @OneToOne
     @JoinColumn(name = "user_email")
     private User user;
