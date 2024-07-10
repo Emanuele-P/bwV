@@ -2,13 +2,14 @@ package ep2024.bwV.payloads;
 
 import ep2024.bwV.enums.TipoCliente;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
 public record NewClienteDTO(
         @NotEmpty
         String ragioneSociale,
-        @NotEmpty
+        @NotNull
         int partitaIva,
         @NotEmpty
         String email,
@@ -20,7 +21,7 @@ public record NewClienteDTO(
         Long fatturatoAnnuale,
         @NotEmpty
         String pec,
-        @NotEmpty
+        @NotNull
         int telefono,
         @NotEmpty
         String emailContatto,
@@ -28,7 +29,7 @@ public record NewClienteDTO(
         String nomeContatto,
         @NotEmpty
         String cognomeContatto,
-        @NotEmpty
+        @NotNull
         int telefonoContatto,
         @NotEmpty
         String logoAziendale,
