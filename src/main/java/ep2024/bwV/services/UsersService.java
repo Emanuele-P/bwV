@@ -4,6 +4,7 @@ import ep2024.bwV.entities.Role;
 import ep2024.bwV.entities.User;
 import ep2024.bwV.exceptions.NotFoundException;
 import ep2024.bwV.payloads.NewUtenteDTO;
+import ep2024.bwV.repositories.UserRolesRepository;
 import ep2024.bwV.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,7 +24,7 @@ public class UsersService {
     private UsersRepository usersRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private UserRolesRepository roleRepository;
 
     @Autowired
     private PasswordEncoder bcrypt;
