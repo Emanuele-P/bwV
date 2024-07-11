@@ -38,28 +38,26 @@ public class ClienteController {
     }
 
     //FINDBYEMAIL fatta solo da admin
-    @GetMapping
+    @GetMapping("/by-email")
     public Cliente findByEmail(@PathVariable String email) {
         return clienteService.findByEmail(email);
     }
 
 
     //FINDBYPIVA fatta solo da admin
-    @GetMapping
+    @GetMapping("/by-vatNumber")
     public Cliente findByPartitaIva(@PathVariable int partitaIva) {
         return clienteService.findByPartitaIva(partitaIva);
     }
 
-
     //update fatta da admin
-    @PutMapping
+    @PutMapping("/{id}")
     public Cliente findByIdAndUpdate(@PathVariable UUID id, @RequestBody NewClienteDTO body) {
         return clienteService.findByIdAndUpdate(id, body);
     }
 
-
     //delete fatta da admin
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void findByIdAndDelete(@PathVariable UUID id) {
         clienteService.findByIdAndDelete(id);

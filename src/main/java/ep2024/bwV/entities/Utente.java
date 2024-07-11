@@ -39,19 +39,18 @@ public abstract class Utente implements UserDetails {
 
     private String ruolo;
 
-    public Utente(String password, String email, String name, String username, String surname, String ruolo) {
-        this.password = password;
+    public Utente(String email, String password, String name, String surname, String username, String ruolo) {
         this.email = email;
+        this.password = password;
         this.name = name;
-        this.username = username;
         this.surname = surname;
+        this.username = username;
         this.ruolo = ruolo;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        return List.of(new SimpleGrantedAuthority(ruolo));
+        return List.of(new SimpleGrantedAuthority(this.ruolo.toUpperCase()));
     }
 
     @Override

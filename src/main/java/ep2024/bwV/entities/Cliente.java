@@ -70,7 +70,7 @@ public class Cliente {
 
     @OneToMany(mappedBy = "cliente")
     @JsonIgnore
-    private List<Fatture> fatture;
+    private List<Fattura> fatture;
 
 
     public Cliente(String ragioneSociale, int partitaIva, String email, LocalDate dataInserimento, LocalDate dataUltimoContatto, Long fatturatoAnnuale, String pec, int telefono, String emailContatto, String nomeContatto, String cognomeContatto, int telefonoContatto, String indirizzo, TipoCliente tipoCliente) {

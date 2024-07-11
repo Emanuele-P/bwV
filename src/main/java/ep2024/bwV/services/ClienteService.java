@@ -46,7 +46,6 @@ public class ClienteService {
 
         Cliente newCliente = new Cliente(body.ragioneSociale(), body.partitaIva(), body.email(), body.dataInserimento(), body.dataUltimoContatto(), body.fatturatoAnnuale(), body.pec(), body.telefono(), body.emailContatto(), body.nomeContatto(), body.cognomeContatto(), body.telefonoContatto(), body.indirizzo(), body.tipoCliente());
 
-
         return clienteRepository.save(newCliente);
     }
 
@@ -54,22 +53,22 @@ public class ClienteService {
         return this.clienteRepository.findById(userId).orElseThrow(() -> new NotFoundException(userId));
     }
 
-    public Cliente findByIdAndUpdate(UUID userId, NewClienteDTO clienteModificato) {
+    public Cliente findByIdAndUpdate(UUID userId, NewClienteDTO updatedCliente) {
         Cliente found = this.findById(userId);
-        found.setRagioneSociale(clienteModificato.ragioneSociale());
-        found.setPartitaIva(clienteModificato.partitaIva());
-        found.setEmail(clienteModificato.email());
-        found.setDataInserimento(clienteModificato.dataInserimento());
-        found.setDataUltimoContatto(clienteModificato.dataUltimoContatto());
-        found.setFatturatoAnnuale(clienteModificato.fatturatoAnnuale());
-        found.setPec(clienteModificato.pec());
-        found.setTelefono(clienteModificato.telefono());
-        found.setEmailContatto(clienteModificato.emailContatto());
-        found.setNomeContatto(clienteModificato.nomeContatto());
-        found.setCognomeContatto(clienteModificato.cognomeContatto());
-        found.setTelefonoContatto(clienteModificato.telefonoContatto());
-        found.setIndirizzo(clienteModificato.indirizzo());
-        found.setTipoCliente(clienteModificato.tipoCliente());
+        found.setRagioneSociale(updatedCliente.ragioneSociale());
+        found.setPartitaIva(updatedCliente.partitaIva());
+        found.setEmail(updatedCliente.email());
+        found.setDataInserimento(updatedCliente.dataInserimento());
+        found.setDataUltimoContatto(updatedCliente.dataUltimoContatto());
+        found.setFatturatoAnnuale(updatedCliente.fatturatoAnnuale());
+        found.setPec(updatedCliente.pec());
+        found.setTelefono(updatedCliente.telefono());
+        found.setEmailContatto(updatedCliente.emailContatto());
+        found.setNomeContatto(updatedCliente.nomeContatto());
+        found.setCognomeContatto(updatedCliente.cognomeContatto());
+        found.setTelefonoContatto(updatedCliente.telefonoContatto());
+        found.setIndirizzo(updatedCliente.indirizzo());
+        found.setTipoCliente(updatedCliente.tipoCliente());
 
         return this.clienteRepository.save(found);
     }
@@ -80,14 +79,14 @@ public class ClienteService {
     }
 
     public Cliente findByEmail(String email) {
-        return clienteRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Cliente con email " + email + " non trovato!"));
+        return clienteRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Il cliente con email " + email + " non è stato trovato!"));
     }
 
     public Cliente findByPec(String pec) {
-        return clienteRepository.findByPec(pec).orElseThrow(() -> new NotFoundException("Il cliente con la pec" + pec + " non trovato"));
+        return clienteRepository.findByPec(pec).orElseThrow(() -> new NotFoundException("Il cliente con pec" + pec + " non è stato trovato!"));
     }
 
     public Cliente findByPartitaIva(int partitaIva) {
-        return clienteRepository.findByPartitaIva(partitaIva).orElseThrow(() -> new NotFoundException("Il cliente con " + partitaIva + "non trovato"));
+        return clienteRepository.findByPartitaIva(partitaIva).orElseThrow(() -> new NotFoundException("Il cliente con partita iva: " + partitaIva + " non è stato trovato!"));
     }
 }
