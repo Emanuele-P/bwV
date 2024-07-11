@@ -7,6 +7,7 @@ import ep2024.bwV.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,28 +47,25 @@ public class ClienteController {
         return clienteService.getClienti(page, size, sortBy);
     }
 
-
-
-    //save che sarà fatta solo da admin
+    //save che sarà fatta solo da admin v
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Cliente saveAddress(@RequestBody NewClienteDTO body) {
         return clienteService.save(body);
     }
 
-    //FINDBYID fatta solo da admin user
-
+    //FINDBYID fatta solo da admin user v
     @GetMapping("/{userId}")
     public Cliente findById(@PathVariable UUID userId) {
         return clienteService.findById(userId);
     }
 
-    //FINDBYEMAIL fatta solo da admin e user
-    @GetMapping("/by-email")
-    public Cliente findByEmail(@PathVariable String email) {
-        return clienteService.findByEmail(email);
-    }
-
+//    //FINDBYEMAIL fatta solo da admin e user
+//    @GetMapping("/by-email")
+//    public Cliente findByEmail(@PathVariable String email) {
+//        return clienteService.findByEmail(email);
+//    }
 
     //FINDBYPIVA fatta solo da admin e user
     @GetMapping("/by-vatNumber")
@@ -75,15 +73,17 @@ public class ClienteController {
         return clienteService.findByPartitaIva(partitaIva);
     }
 
-    //update fatta da admin
+    //update fatta da admin v
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Cliente findByIdAndUpdate(@PathVariable UUID id, @RequestBody NewClienteDTO body) {
         return clienteService.findByIdAndUpdate(id, body);
     }
 
-    //delete fatta da admin
+    //delete fatta da admin v
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void findByIdAndDelete(@PathVariable UUID id) {
         clienteService.findByIdAndDelete(id);
     }

@@ -70,9 +70,7 @@ public class ClienteService {
                 }
         );
 
-
-        Cliente newCliente = new Cliente(body.ragioneSociale(), body.partitaIva(), body.email(), body.dataInserimento(), body.dataUltimoContatto(), body.fatturatoAnnuale(), body.pec(), body.telefono(), body.emailContatto(), body.nomeContatto(), body.cognomeContatto(), body.telefonoContatto(), body.indirizzo(), body.tipoCliente());
-
+        Cliente newCliente = new Cliente(body.ragioneSociale(), body.partitaIva(), body.email(), body.dataInserimento(), body.dataUltimoContatto(), body.fatturatoAnnuale(), body.pec(), body.telefono(), body.emailContatto(), body.nomeContatto(), body.cognomeContatto(), body.telefonoContatto(), "https://ui-avatars.com/api/?name=" + body.nomeContatto() + "+" + body.cognomeContatto(), body.indirizzo(), body.tipoCliente());
         return clienteRepository.save(newCliente);
     }
 
@@ -110,6 +108,7 @@ public class ClienteService {
         found.setNomeContatto(updatedCliente.nomeContatto());
         found.setCognomeContatto(updatedCliente.cognomeContatto());
         found.setTelefonoContatto(updatedCliente.telefonoContatto());
+        found.setLogoAziendale(updatedCliente.logoAziendale());
         found.setIndirizzo(updatedCliente.indirizzo());
         found.setTipoCliente(updatedCliente.tipoCliente());
 

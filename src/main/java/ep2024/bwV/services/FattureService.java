@@ -25,14 +25,13 @@ public class FattureService {
     private ClienteRepository clienteRepository;
 
     public Fattura save(NewFatturaDTO body) {
-        this.fattureRepositories.findByNumero(body.numero()).ifPresent(
+        fattureRepositories.findByNumero(body.numero()).ifPresent(
                 user -> {
-                    throw new BadRequestException("L'email " + body.numero() + " è già in uso!");
+                    throw new BadRequestException("Il numero della fattura " + body.numero() + " è giá in uso!");
                 }
         );
 
         Fattura newFattura = new Fattura(body.importo(), body.data(), body.numero());
-
         return fattureRepositories.save(newFattura);
     }
 

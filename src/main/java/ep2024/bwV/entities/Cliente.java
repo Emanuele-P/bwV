@@ -42,7 +42,7 @@ public class Cliente {
 
     private String pec;
 
-    private int telefono;
+    private String telefono;
 
     @Column(name = "email_contatto")
     private String emailContatto;
@@ -54,7 +54,7 @@ public class Cliente {
     private String cognomeContatto;
 
     @Column(name = "telefono_contatto")
-    private int telefonoContatto;
+    private String telefonoContatto;
 
     @Column(name = "logo_aziendale")
     private String logoAziendale;
@@ -69,7 +69,7 @@ public class Cliente {
     private List<Fattura> fatture;
 
 
-    public Cliente(String ragioneSociale, int partitaIva, String email, LocalDate dataInserimento, LocalDate dataUltimoContatto, Long fatturatoAnnuale, String pec, int telefono, String emailContatto, String nomeContatto, String cognomeContatto, int telefonoContatto, String indirizzo, TipoCliente tipoCliente) {
+    public Cliente(String ragioneSociale, int partitaIva, String email, LocalDate dataInserimento, LocalDate dataUltimoContatto, Long fatturatoAnnuale, String pec, String telefono, String emailContatto, String nomeContatto, String cognomeContatto, String telefonoContatto, String logoAziendale, String indirizzo, TipoCliente tipoCliente) {
         this.ragioneSociale = ragioneSociale;
         this.partitaIva = partitaIva;
         this.email = email;
@@ -82,6 +82,7 @@ public class Cliente {
         this.nomeContatto = nomeContatto;
         this.cognomeContatto = cognomeContatto;
         this.telefonoContatto = telefonoContatto;
+        this.logoAziendale = logoAziendale;
         this.indirizzo = indirizzo;
         this.tipoCliente = tipoCliente;
     }
