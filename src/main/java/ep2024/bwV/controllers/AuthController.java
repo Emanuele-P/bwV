@@ -1,6 +1,5 @@
 package ep2024.bwV.controllers;
 
-import ep2024.bwV.entities.Role;
 import ep2024.bwV.entities.User;
 import ep2024.bwV.exceptions.BadRequestException;
 import ep2024.bwV.payloads.NewUtenteDTO;
@@ -44,11 +43,10 @@ public class AuthController {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('ADMIN')")
-    private User saveUser(@RequestBody @Validated NewUtenteDTO body, BindingResult validationResult) {
+    public User saveUser(@RequestBody @Validated NewUtenteDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             throw new BadRequestException(validationResult.getAllErrors());
         }
-        Role userRole = rolesService.findByName("USER");
-        return usersService.save(body, List.of(userRole));
+        return usersService.save(body);
     }
 }

@@ -3,6 +3,7 @@ package ep2024.bwV.config;
 import ep2024.bwV.entities.Role;
 import ep2024.bwV.entities.User;
 import ep2024.bwV.exceptions.BadRequestException;
+import ep2024.bwV.repositories.UserRolesRepository;
 import ep2024.bwV.repositories.UsersRepository;
 import ep2024.bwV.services.UserRolesService;
 import jakarta.annotation.PostConstruct;
@@ -19,6 +20,9 @@ public class RolesAndAdminInitializer {
     private UserRolesService rolesService;
 
     @Autowired
+    private UserRolesRepository rolesRepository;
+
+    @Autowired
     private UsersRepository usersRepository;
 
     @Autowired
@@ -27,14 +31,15 @@ public class RolesAndAdminInitializer {
 @PostConstruct
 public void initializeRolesAndAdminUser() {
         try {
-            if (rolesService.findByName("ADMIN") == null) {
-                rolesService.save(new Role("ADMIN"));
+
+            if (rolesRepository.findByName("ADMIN").isEmpty()) {
+                rolesRepository.save(new Role("ADMIN"));
             }
-            if (rolesService.findByName("USER") == null) {
-                rolesService.save(new Role("USER"));
+            if (rolesRepository.findByName("USER").isEmpty()) {
+                rolesRepository.save(new Role("USER"));
             }
 
-            if (rolesService == null) {
+            if (rolesRepository == null) {
                 System.out.println("rolesService is null");
             } else {
                 System.out.println("rolesService is initialized");
