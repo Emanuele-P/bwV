@@ -60,7 +60,7 @@ public class FattureService {
     public List<Fattura> findByCliente(Cliente cliente){
         return  fattureRepositories.findByCliente(cliente);
     }
-    public List<Fatture> findByStato(StatoFatture statoFatture){
+    public List<Fattura> findByStato(StatoFattura statoFatture){
         return  fattureRepositories.findByStato(statoFatture);
     }
 

@@ -1,8 +1,8 @@
 package ep2024.bwV.repositories;
 
 import ep2024.bwV.entities.Cliente;
-import ep2024.bwV.entities.Fatture;
-import ep2024.bwV.entities.StatoFatture;
+import ep2024.bwV.entities.Fattura;
+import ep2024.bwV.entities.StatoFattura;
 import ep2024.bwV.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,12 +14,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 
-public interface FattureRepositories extends JpaRepository<Fatture, UUID> {
-    List<Fatture> findByStato(StatoFatture statoFatture);
-    Optional<Fatture> findByNumero(long numero);
-    Optional<Fatture> findById(UUID id);
-    List<Fatture> findAll();
-    List<Fatture> findByCliente(Cliente cliente);
+public interface FattureRepositories extends JpaRepository<Fattura, UUID> {
+    List<Fattura> findByStato(StatoFattura statoFatture);
+    Optional<Fattura> findByNumero(long numero);
+    Optional<Fattura> findById(UUID id);
+    List<Fattura> findAll();
+    List<Fattura> findByCliente(Cliente cliente);
     @Query("SELECT f.stato FROM Fatture f WHERE f.id = :fatturaId")
-    StatoFatture findStatoByFatturaId(@Param("fatturaId") UUID fatturaId);
+    StatoFattura findStatoByFatturaId(@Param("fatturaId") UUID fatturaId);
 }
