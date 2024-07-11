@@ -19,10 +19,17 @@ public class FattureController {
     private FattureService fattureService;
     @Autowired
     private StatoFattureService statoFattureService;
+
     @GetMapping
     public Page<Fattura> getAllFatture(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
         return fattureService.getFatture(page, size, sortBy);
     }
+
+    @GetMapping
+    public Page<Fattura> getAllFattureByStato(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "stato") String sortBy) {
+        return fattureService.getFatture(page, size, sortBy);
+    }
+
 
     //admin user legato id cliente
     @GetMapping("/{fatturenum}")
@@ -39,9 +46,9 @@ public class FattureController {
     // solo admin legato id cliente
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Fattura save(@RequestBody @Validated NewFatturaDTO body){
+    public Fattura save(@RequestBody @Validated NewFatturaDTO body) {
         return fattureService.save(body);
-}
+    }
 
     // solo admin
     @DeleteMapping("/{fatturanum}")
