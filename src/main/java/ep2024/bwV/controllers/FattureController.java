@@ -24,26 +24,32 @@ public class FattureController {
         return fattureService.getFatture(page, size, sortBy);
     }
 
+    //admin user legato id cliente
     @GetMapping("/{fatturenum}")
     public Fattura findByNumero(@PathVariable long numero) {
         return fattureService.findByNumero(numero);
     }
 
+    //admin user legato id cliente
     @GetMapping("/{fatturaId}")
     public Fattura findById(@PathVariable UUID id) {
         return fattureService.findById(id);
     }
 
+    // solo admin legato id cliente
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Fattura save(@RequestBody @Validated NewFatturaDTO body){
         return fattureService.save(body);
 }
 
+    // solo admin
     @DeleteMapping("/{fatturanum}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void findByNumAndDelete(@PathVariable long num) {
         fattureService.findByNumAndDelete(num);
     }
+
+    //update solo admin PUT anche patch, legato anche allo stato
 
 }

@@ -10,16 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 public class UserController {
 
-//PUT /me, controllo sulla mail
-
+//save solo da admin prob edit controller
     
-//GETALL FATTURE /me
-
-
-    //GETUSER /me per vedere proprie info
-    @GetMapping("/me")
-    public User getProfile(@AuthenticationPrincipal User currentAuthenticatedUser) {
-        return currentAuthenticatedUser;
-    }
 
 }

@@ -64,10 +64,6 @@ public class Cliente {
     @Enumerated(EnumType.STRING)
     private TipoCliente tipoCliente;
 
-    @OneToOne
-    @JoinColumn(name = "user_email")
-    private User user;
-
     @OneToMany(mappedBy = "cliente")
     @JsonIgnore
     private List<Fattura> fatture;
