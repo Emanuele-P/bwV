@@ -17,7 +17,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -50,7 +49,6 @@ public class AuthController {
             throw new BadRequestException(validationResult.getAllErrors());
         }
         Role userRole = rolesService.findByName("USER");
-        List<Role> roles = Collections.singletonList(userRole);
-        return usersService.save(body, roles);
+        return usersService.save(body, List.of(userRole));
     }
 }

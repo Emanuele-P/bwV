@@ -14,26 +14,11 @@ public class UserRolesService {
     private UserRolesRepository roleRepository;
 
     public Role findByName(String name) {
-        System.out.println("Attempting to find role by name: " + name);
-        Role role = roleRepository.findByName(name)
+        return roleRepository.findByName(name)
                 .orElseThrow(() -> new NotFoundException("Role not found: " + name));
-        System.out.println("Found role: " + role.getName());
-        return role;
     }
 
     public Role save(Role role) {
-        System.out.println("Saving role: " + role.getName());
         return roleRepository.save(role);
-    }
-
-    public Optional<Role> findById(String name) {
-        System.out.println("Attempting to find role by ID: " + name);
-        Optional<Role> role = roleRepository.findByName(name);
-        if (role.isPresent()) {
-            System.out.println("Found role: " + role.get().getName());
-        } else {
-            System.out.println("Role not found for ID: " + name);
-        }
-        return role;
     }
 }

@@ -23,7 +23,7 @@ public class AuthService {
 
     public String authenticateUserAndGenerateToken(UserLoginDTO payload){
 
-        User user = this.usersService.findByEmail(payload.email());
+        User user = usersService.findByEmail(payload.email());
         if(bcrypt.matches(payload.password(), user.getPassword())){
             return jwtTools.createToken(user);
         } else {

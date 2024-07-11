@@ -24,9 +24,6 @@ public class UsersService {
     private UsersRepository usersRepository;
 
     @Autowired
-    private UserRolesRepository roleRepository;
-
-    @Autowired
     private PasswordEncoder bcrypt;
 
     public Page<User> getUsers(int pageNumber, int pageSize, String sortBy) {
