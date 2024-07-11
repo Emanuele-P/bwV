@@ -57,6 +57,7 @@ public class FattureService {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
         return fattureRepositories.findAll(pageable);
     }
+
     public List<Fattura> findByCliente(Cliente cliente){
         return  fattureRepositories.findByCliente(cliente);
     }

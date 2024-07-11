@@ -33,5 +33,4 @@ public class Fattura {
         this.numero=numero;
 
     }
-
 }

@@ -19,6 +19,7 @@ public class FattureController {
     private FattureService fattureService;
     @Autowired
     private StatoFattureService statoFattureService;
+
     @GetMapping
     public Page<Fattura> getAllFatture(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
         return fattureService.getFatture(page, size, sortBy);
