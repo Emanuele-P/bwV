@@ -3,7 +3,7 @@ package ep2024.bwV.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
@@ -11,19 +11,23 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "fatture")
-public class Fatture {
+public class Fattura {
     @Id
     @Setter(AccessLevel.NONE)
     @GeneratedValue
     private UUID id;
-    private LocalDateTime data;
+    private LocalDate data;
     private double importo;
     private long numero;
     @ManyToOne
     @JoinColumn(name = "stato_id")
-    private StatoFatture stato;
+    private StatoFattura stato;
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente ;
 
-    public Fatture(double importo, LocalDateTime data,long numero) {
+
+    public Fattura(double importo, LocalDate data, long numero) {
         this.importo = importo;
         this.data = data;
         this.numero=numero;

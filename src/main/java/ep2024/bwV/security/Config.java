@@ -23,8 +23,6 @@ public class Config {
         httpSecurity.sessionManagement(http -> http.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         httpSecurity.authorizeHttpRequests(http -> http
                 .requestMatchers("/**", "/provinces/**").permitAll()
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                .requestMatchers("/user/**").hasRole("USER")
         );
         return httpSecurity.build();
     }
@@ -32,6 +30,5 @@ public class Config {
     @Bean
     PasswordEncoder getBCrypt() {
         return new BCryptPasswordEncoder(11);
-
     }
 }

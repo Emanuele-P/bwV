@@ -1,11 +1,13 @@
 package ep2024.bwV.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import ep2024.bwV.enums.TipoCliente;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -62,9 +64,10 @@ public class Cliente {
     @Enumerated(EnumType.STRING)
     private TipoCliente tipoCliente;
 
-    @OneToOne
-    @JoinColumn(name = "user_email")
-    private User user;
+    @OneToMany(mappedBy = "cliente")
+    @JsonIgnore
+    private List<Fattura> fatture;
+
 
     public Cliente(String ragioneSociale, int partitaIva, String email, LocalDate dataInserimento, LocalDate dataUltimoContatto, Long fatturatoAnnuale, String pec, int telefono, String emailContatto, String nomeContatto, String cognomeContatto, int telefonoContatto, String indirizzo, TipoCliente tipoCliente) {
         this.ragioneSociale = ragioneSociale;
@@ -81,6 +84,5 @@ public class Cliente {
         this.telefonoContatto = telefonoContatto;
         this.indirizzo = indirizzo;
         this.tipoCliente = tipoCliente;
-
     }
 }

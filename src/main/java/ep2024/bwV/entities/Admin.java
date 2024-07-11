@@ -19,7 +19,7 @@ public class Admin extends Utente {
     @Id
     @GeneratedValue
     private UUID id;
-    public Admin(String password, String email, String name, String username, String surname) {
-        super(password, email, name, username, surname, "ADMIN");
+    public Admin(String email, String password, String name, String surname, String username) {
+        super(email, password, name, surname, username, "ADMIN");
     }
 }
