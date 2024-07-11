@@ -22,7 +22,7 @@ public class Config {
         httpSecurity.csrf(http -> http.disable());
         httpSecurity.sessionManagement(http -> http.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         httpSecurity.authorizeHttpRequests(http -> http
-                .requestMatchers("/**", "/provinces/**").permitAll()
+                .requestMatchers("/**").permitAll()
         );
         return httpSecurity.build();
     }

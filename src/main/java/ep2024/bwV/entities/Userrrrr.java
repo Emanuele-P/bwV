@@ -11,15 +11,18 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Entity
-@Table(name = "admins")
+@Table(name = "users")
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-public class Admin extends Utente {
+public class Userrrrr extends Ute {
     @Id
     @GeneratedValue
     private UUID id;
-    public Admin(String email, String password, String name, String surname, String username) {
-        super(email, password, name, surname, username, "ADMIN");
+    private String avatar;
+
+    public Userrrrr(String email, String password, String name, String surname, String username, String avatar) {
+        super(email, password, name, surname, username, "USER");
+        this.avatar = avatar;
     }
 }

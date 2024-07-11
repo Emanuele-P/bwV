@@ -1,6 +1,11 @@
 package ep2024.bwV.entities;
 
-import jakarta.persistence.*;
+
+
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,30 +16,41 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
-@Entity
-@Table(name = "utenti")
-@NoArgsConstructor
+@MappedSuperclass
 @Getter
 @Setter
-public class Utente implements UserDetails {
+@NoArgsConstructor
+public abstract class Ute implements UserDetails {
     @Id
     @GeneratedValue
+    @Setter(AccessLevel.NONE)
     private UUID id;
 
     private String email;
+
     private String password;
+
     private String name;
+
     private String surname;
+
     private String username;
 
-    @ManyToMany
-    private List<Role> roles;
+    private String ruolo;
+
+    public Ute(String email, String password, String name, String surname, String username, String ruolo) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.ruolo = ruolo;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+        return List.of(new SimpleGrantedAuthority(this.ruolo.toUpperCase()));
     }
 
     @Override

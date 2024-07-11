@@ -1,9 +1,7 @@
 package ep2024.bwV.security;
 
-import ep2024.bwV.entities.Admin;
-import ep2024.bwV.entities.User;
+import ep2024.bwV.entities.Userrrrr;
 import ep2024.bwV.exceptions.UnauthorizedException;
-import ep2024.bwV.repositories.AdminRepository;
 import ep2024.bwV.repositories.UsersRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -46,11 +44,11 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         jwtTools.verifyToken(accessToken);
         String id = jwtTools.extractIdFromToken(accessToken);
 
-        Optional<User> currentUser = usersRepository.findById(UUID.fromString(id));
+        Optional<Userrrrr> currentUser = usersRepository.findById(UUID.fromString(id));
         Optional<Admin> currentAdmin = adminRepository.findById(UUID.fromString(id));
 
         if (currentUser.isPresent()) {
-            User currentAuthorized = currentUser.get();
+            Userrrrr currentAuthorized = currentUser.get();
             setAuthentication(currentAuthorized);
             System.out.println("Authenticated user: " + currentAuthorized);
         } else if (currentAdmin.isPresent()) {
@@ -72,7 +70,6 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         AntPathMatcher pathMatcher = new AntPathMatcher();
-        return pathMatcher.match("/auth/**", request.getServletPath()) ||
-                pathMatcher.match("/provinces/**", request.getServletPath());
+        return pathMatcher.match("/auth/**", request.getServletPath());
     }
 }
