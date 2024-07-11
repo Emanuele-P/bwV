@@ -15,7 +15,7 @@ import java.util.UUID;
 
 
 public interface FattureRepositories extends JpaRepository<Fatture, UUID> {
-//    Optional<Fatture> findByStato(boolean stato);
+    List<Fatture> findByStato(StatoFatture statoFatture);
     Optional<Fatture> findByNumero(long numero);
     Optional<Fatture> findById(UUID id);
     List<Fatture> findAll();

@@ -60,6 +60,9 @@ public class FattureService {
     public List<Fatture> findByCliente(Cliente cliente){
         return  fattureRepositories.findByCliente(cliente);
     }
+    public List<Fatture> findByStato(StatoFatture statoFatture){
+        return  fattureRepositories.findByStato(statoFatture);
+    }
 
     public double getFatturatoAnnuale(UUID clienteId) {
         Cliente cliente = clienteRepository.findById(clienteId)
