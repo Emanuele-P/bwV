@@ -3,11 +3,11 @@ package ep2024.bwV.payloads;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public record NewFatturaDTO(
-        @NotEmpty
-        LocalDateTime data,
+        @NotNull
+        LocalDate data,
         @NotNull
         long numero,
         @NotNull
