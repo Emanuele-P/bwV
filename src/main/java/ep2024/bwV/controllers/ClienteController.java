@@ -18,9 +18,31 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
-    //GETALL fatta solo da admin
+    //GETALL fatta solo da admin e user
+    @GetMapping
     public Page<Cliente> getAllClienti(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
-        return clienteService.getUsers(page, size, sortBy);
+        return clienteService.getClienti(page, size, sortBy);
+    }
+
+    @GetMapping("/name")
+    public Page<Cliente> getAllClientiByName(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "nomeContatto") String sortBy) {
+        return clienteService.getClienti(page, size, sortBy);
+    }
+
+    @GetMapping("/fatturatoAnnuale")
+    public Page<Cliente> getAllClientiByFatturatoAnnuale(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "fatturatoAnnuale") String sortBy) {
+        return clienteService.getClienti(page, size, sortBy);
+    }
+
+    @GetMapping("/dataInserimento")
+    public Page<Cliente> getAllClientiByDataInserimento(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "dataInserimento") String sortBy) {
+        return clienteService.getClienti(page, size, sortBy);
+    }
+
+
+    @GetMapping("/dataInserimento")
+    public Page<Cliente> getAllClientiByDataUltimoContatto(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "dataUltimoContatto") String sortBy) {
+        return clienteService.getClienti(page, size, sortBy);
     }
 
     //save che sarà fatta solo da admin
@@ -30,21 +52,21 @@ public class ClienteController {
         return clienteService.save(body);
     }
 
-    //FINDBYID fatta solo da admin
+    //FINDBYID fatta solo da admin user
 
     @GetMapping("/{userId}")
     public Cliente findById(@PathVariable UUID userId) {
         return clienteService.findById(userId);
     }
 
-    //FINDBYEMAIL fatta solo da admin
+    //FINDBYEMAIL fatta solo da admin e user
     @GetMapping("/by-email")
     public Cliente findByEmail(@PathVariable String email) {
         return clienteService.findByEmail(email);
     }
 
 
-    //FINDBYPIVA fatta solo da admin
+    //FINDBYPIVA fatta solo da admin e user
     @GetMapping("/by-vatNumber")
     public Cliente findByPartitaIva(@PathVariable int partitaIva) {
         return clienteService.findByPartitaIva(partitaIva);
