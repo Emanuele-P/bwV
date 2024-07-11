@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -28,29 +29,29 @@ public class ClienteService {
         return clienteRepository.findAll(pageable);
     }
 
-    public Page<Cliente> getClientiByName(int pageNumber, int pageSize, String sortBy) {
-        if (pageSize > 20) pageSize = 20;
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
-        return clienteRepository.findAll(pageable);
-    }
-
-    public Page<Cliente> getClientiByFatturatoAnnuale(int pageNumber, int pageSize, String sortBy) {
-        if (pageSize > 20) pageSize = 20;
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
-        return clienteRepository.findAll(pageable);
-    }
-
-    public Page<Cliente> getClientiByDataInserimento(int pageNumber, int pageSize, String sortBy) {
-        if (pageSize > 20) pageSize = 20;
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
-        return clienteRepository.findAll(pageable);
-    }
-
-    public Page<Cliente> getClientiByDataUltimoContatto(int pageNumber, int pageSize, String sortBy) {
-        if (pageSize > 20) pageSize = 20;
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
-        return clienteRepository.findAll(pageable);
-    }
+//    public Page<Cliente> findByNomeContattoStartingWithIgnoreCase(int pageNumber, int pageSize, String sortBy) {
+//        if (pageSize > 20) pageSize = 20;
+//        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+//        return clienteRepository.findAll(pageable);
+//    }
+//
+//    public Page<Cliente> findByFatturatoAnnuale(int pageNumber, int pageSize, String sortBy) {
+//        if (pageSize > 20) pageSize = 20;
+//        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+//        return clienteRepository.findAll(pageable);
+//    }
+//
+//    public Page<Cliente> findByDataInserimento(int pageNumber, int pageSize, String sortBy) {
+//        if (pageSize > 20) pageSize = 20;
+//        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+//        return clienteRepository.findAll(pageable);
+//    }
+//
+//    public Page<Cliente> findByDataUltimoContatto(int pageNumber, int pageSize, String sortBy) {
+//        if (pageSize > 20) pageSize = 20;
+//        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+//        return clienteRepository.findAll(pageable);
+//    }
 
 
     public Cliente save(NewClienteDTO body) {
@@ -79,8 +80,8 @@ public class ClienteService {
         return this.clienteRepository.findById(userId).orElseThrow(() -> new NotFoundException(userId));
     }
 
-    public Cliente findByFatturatoAnnuale(Long fatturatoAnnuale) {
-        return clienteRepository.findByFatturatoAnnuale(fatturatoAnnuale).orElseThrow(() -> new NotFoundException(fatturatoAnnuale));
+    public List <Cliente> findByFatturatoAnnuale(Long fatturatoAnnuale) {
+        return clienteRepository.findByFatturatoAnnuale(fatturatoAnnuale);
     }
 
     public Cliente findByDataInserimento(LocalDate dataInserimento) {

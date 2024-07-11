@@ -57,27 +57,27 @@ public class FattureService {
         return fattureRepositories.findAll(pageable);
     }
 
-    public Page<Fattura> findByStato(int pageNumber, int pageSize, String sortBy) {
-        if (pageSize > 50) pageSize = 50;
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
-        return fattureRepositories.findAll(pageable);
-    }
-
-    public Page<Fattura> getFattureByData(int pageNumber, int pageSize, String sortBy) {
-        if (pageSize > 50) pageSize = 50;
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
-        return fattureRepositories.findAll(pageable);
-    }
-
-    public Page<Fattura> getFattureByCliente(int pageNumber, int pageSize, String sortBy) {
-        if (pageSize > 50) pageSize = 50;
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
-        return fattureRepositories.findAll(pageable);
-    }
-
-    public List<Fattura> findByCliente(Cliente cliente) {
-        return fattureRepositories.findByCliente(cliente);
-    }
+//    public Page<Fattura> findByStato(int pageNumber, int pageSize, String sortBy) {
+//        if (pageSize > 50) pageSize = 50;
+//        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+//        return fattureRepositories.findAll(pageable);
+//    }
+//
+//    public Page<Fattura> getFattureByData(int pageNumber, int pageSize, String sortBy) {
+//        if (pageSize > 50) pageSize = 50;
+//        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+//        return fattureRepositories.findAll(pageable);
+//    }
+//
+//    public Page<Fattura> getFattureByCliente(int pageNumber, int pageSize, String sortBy) {
+//        if (pageSize > 50) pageSize = 50;
+//        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+//        return fattureRepositories.findAll(pageable);
+//    }
+//
+//    public List<Fattura> findByCliente(Cliente cliente) {
+//        return fattureRepositories.findByCliente(cliente);
+//    }
 
     public double getFatturatoAnnuale(UUID clienteId) {
         Cliente cliente = clienteRepository.findById(clienteId)

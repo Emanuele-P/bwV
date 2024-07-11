@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -17,6 +18,27 @@ public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
+//    @GetMapping("/name")
+//    public Page<Cliente> getAllByNomeContattoStartingWithIgnoreCase(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "nomeContatto") String sortBy) {
+//        return clienteService.findByNomeContattoStartingWithIgnoreCase(page, size, sortBy);
+//    }
+
+
+    @GetMapping("/fatturatoAnnuale")
+    public List <Cliente> getAllByFatturatoAnnuale(@PathVariable Long fatturatoAnnuale) {
+        return clienteService.findByFatturatoAnnuale(fatturatoAnnuale);
+    }
+
+//    @GetMapping("/dataInserimento")
+//    public Page<Cliente> getAllByDataInserimento(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "dataInserimento") String sortBy) {
+//        return clienteService.findByDataInserimento(page, size, sortBy);
+//    }
+//
+//
+//    @GetMapping("/ultimoContatto")
+//    public Cliente getAllByDataUltimoContatto(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "dataUltimoContatto") String sortBy) {
+//        return clienteService.findByDataUltimoContatto(page, size, sortBy);
+//    }
 
     //GETALL fatta solo da admin e user
     @GetMapping
@@ -24,26 +46,7 @@ public class ClienteController {
         return clienteService.getClienti(page, size, sortBy);
     }
 
-    @GetMapping("/name")
-    public Page<Cliente> getAllClientiByName(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "nomeContatto") String sortBy) {
-        return clienteService.getClienti(page, size, sortBy);
-    }
 
-    @GetMapping("/fatturatoAnnuale")
-    public Page<Cliente> getAllClientiByFatturatoAnnuale(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "fatturatoAnnuale") String sortBy) {
-        return clienteService.getClienti(page, size, sortBy);
-    }
-
-    @GetMapping("/dataInserimento")
-    public Page<Cliente> getAllClientiByDataInserimento(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "dataInserimento") String sortBy) {
-        return clienteService.getClienti(page, size, sortBy);
-    }
-
-
-    @GetMapping("/dataInserimento")
-    public Page<Cliente> getAllClientiByDataUltimoContatto(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "dataUltimoContatto") String sortBy) {
-        return clienteService.getClienti(page, size, sortBy);
-    }
 
     //save che sarà fatta solo da admin
     @PostMapping

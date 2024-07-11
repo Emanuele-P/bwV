@@ -24,11 +24,11 @@ public class FattureController {
     public Page<Fattura> getAllFatture(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
         return fattureService.getFatture(page, size, sortBy);
     }
-
-    @GetMapping
-    public Page<Fattura> getAllFattureByStato(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "stato") String sortBy) {
-        return fattureService.getFatture(page, size, sortBy);
-    }
+//
+//    @GetMapping
+//    public Page<Fattura> getAllFattureByStato(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "stato") String sortBy) {
+//        return fattureService.getFatture(page, size, sortBy);
+//    }
 
 
     //admin user legato id cliente
