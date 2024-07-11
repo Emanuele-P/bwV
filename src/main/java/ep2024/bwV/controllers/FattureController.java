@@ -33,41 +33,46 @@ public class FattureController {
     public Page<Fattura> getAllFatture(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
         return fattureService.getFatture(page, size, sortBy);
     }
-//
+
+    // save providing idCliente
+    @PostMapping("/{idCliente}")
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Fattura save(@PathVariable UUID idCliente, @RequestBody @Validated NewFatturaDTO body) {
+        return fattureService.save(body, idCliente);
+    }
+
+    //get by id
+    @GetMapping("/{fatturaId}")
+    public Fattura findById(@PathVariable UUID id) {
+        return fattureService.findById(id);
+    }
+
+    //update
+    @PutMapping("/{fatturaId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Fattura updateFattura(@PathVariable UUID fatturaId, @RequestBody @Validated NewFatturaDTO body) {
+        return fattureService.updateFattura(fatturaId, body);
+    }
+
+    //delete
+    @DeleteMapping("/{fatturaId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void deleteFattura(@PathVariable UUID fatturaId) {
+        fattureService.deleteFattura(fatturaId);
+    }
+
+
 //    @GetMapping
 //    public Page<Fattura> getAllFattureByStato(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "stato") String sortBy) {
 //        return fattureService.getFatture(page, size, sortBy);
 //    }
-
 
     //admin user legato id cliente
     @GetMapping("/{fatturenum}")
     public Fattura findByNumero(@PathVariable long numero) {
         return fattureService.findByNumero(numero);
     }
-
-    //admin user legato id cliente
-    @GetMapping("/{fatturaId}")
-    public Fattura findById(@PathVariable UUID id) {
-        return fattureService.findById(id);
-    }
-
-    // solo admin legato id cliente
-    @PostMapping("/{idCliente}")
-    @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public Fattura save(@RequestParam UUID idCliente, @RequestBody @Validated NewFatturaDTO body) {
-       Cliente found = clienteService.findById(idCliente);
-       return fattureService.save(body);
-    }
-
-    // solo admin
-    @DeleteMapping("/{fatturanum}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void findByNumAndDelete(@PathVariable long num) {
-        fattureService.findByNumAndDelete(num);
-    }
-
-    //update solo admin PUT anche patch, legato anche allo stato
 
 }
