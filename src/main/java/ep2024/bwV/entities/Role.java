@@ -5,9 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-import java.util.UUID;
-
 @Entity
 @Table(name = "roles")
 @NoArgsConstructor
@@ -15,11 +12,9 @@ import java.util.UUID;
 @Setter
 public class Role {
     @Id
-    @GeneratedValue
-    private UUID id;
-
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private List<Ute> users;
+    public Role(String name) {
+        this.name = name;
+    }
 }

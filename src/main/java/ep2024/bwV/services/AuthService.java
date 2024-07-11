@@ -1,6 +1,6 @@
 package ep2024.bwV.services;
 
-import ep2024.bwV.entities.Userrrrr;
+import ep2024.bwV.entities.User;
 import ep2024.bwV.exceptions.UnauthorizedException;
 import ep2024.bwV.payloads.UserLoginDTO;
 import ep2024.bwV.security.JWTTools;
@@ -21,13 +21,13 @@ public class AuthService {
     private JWTTools jwtTools;
 
 
-    public String authenticateUserAndGenerateToken(UserLoginDTO payload) {
-        Userrrrr user = usersService.findByEmail(payload.email());
+    public String authenticateUserAndGenerateToken(UserLoginDTO payload){
 
-        if (bcrypt.matches(payload.password(), user.getPassword())) {
+        User user = this.usersService.findByEmail(payload.email());
+        if(bcrypt.matches(payload.password(), user.getPassword())){
             return jwtTools.createToken(user);
         } else {
-            throw new UnauthorizedException("Credenziali non corrette!");
+            throw new UnauthorizedException("Your credentials are incorrect!");
         }
     }
 }

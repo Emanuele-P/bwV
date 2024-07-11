@@ -14,11 +14,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "utenti")
+@Table(name = "users")
 @NoArgsConstructor
 @Getter
 @Setter
-public class Utente implements UserDetails {
+public class User implements UserDetails {
     @Id
     @GeneratedValue
     private UUID id;
@@ -28,17 +28,35 @@ public class Utente implements UserDetails {
     private String name;
     private String surname;
     private String username;
+    private String avatar;
 
     @ManyToMany
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_name")
+    )
     private List<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public String getUsername() {
         return this.email;
+    }
+
+    public User(String email, String password, String name, String surname, String username, String avatar, List<Role> roles) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.avatar = avatar;
+        this.roles = roles;
     }
 }

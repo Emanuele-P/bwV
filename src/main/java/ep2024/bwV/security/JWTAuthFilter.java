@@ -1,6 +1,6 @@
 package ep2024.bwV.security;
 
-import ep2024.bwV.entities.Userrrrr;
+import ep2024.bwV.entities.User;
 import ep2024.bwV.exceptions.UnauthorizedException;
 import ep2024.bwV.repositories.UsersRepository;
 import jakarta.servlet.FilterChain;
@@ -29,9 +29,6 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     @Autowired
     private UsersRepository usersRepository;
 
-    @Autowired
-    private AdminRepository adminRepository;
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
@@ -43,28 +40,18 @@ public class JWTAuthFilter extends OncePerRequestFilter {
         String accessToken = authHeader.substring(7);
         jwtTools.verifyToken(accessToken);
         String id = jwtTools.extractIdFromToken(accessToken);
-
-        Optional<Userrrrr> currentUser = usersRepository.findById(UUID.fromString(id));
-        Optional<Admin> currentAdmin = adminRepository.findById(UUID.fromString(id));
+        Optional<User> currentUser = usersRepository.findById(UUID.fromString(id));
 
         if (currentUser.isPresent()) {
-            Userrrrr currentAuthorized = currentUser.get();
-            setAuthentication(currentAuthorized);
+            User currentAuthorized = currentUser.get();
+            Authentication authentication = new UsernamePasswordAuthenticationToken(currentAuthorized, null, currentAuthorized.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
             System.out.println("Authenticated user: " + currentAuthorized);
-        } else if (currentAdmin.isPresent()) {
-            Admin currentAuthorized = currentAdmin.get();
-            setAuthentication(currentAuthorized);
-            System.out.println("Authenticated admin: " + currentAuthorized);
         } else {
             throw new UnauthorizedException("User not found.");
         }
 
         filterChain.doFilter(request, response);
-    }
-
-    private void setAuthentication(Object currentAuthorized) {
-        Authentication authentication = new UsernamePasswordAuthenticationToken(currentAuthorized, null, ((UserDetails) currentAuthorized).getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     @Override
