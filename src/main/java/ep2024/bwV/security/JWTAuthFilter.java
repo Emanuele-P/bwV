@@ -1,10 +1,9 @@
 package ep2024.bwV.security;
 
-import ep2024.bwV.entities.Admin;
 import ep2024.bwV.entities.User;
 import ep2024.bwV.exceptions.UnauthorizedException;
-import ep2024.bwV.repositories.AdminRepository;
 import ep2024.bwV.repositories.UsersRepository;
+import ep2024.bwV.services.UsersService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,47 +31,33 @@ public class JWTAuthFilter extends OncePerRequestFilter {
     private UsersRepository usersRepository;
 
     @Autowired
-    private AdminRepository adminRepository;
+    private UsersService usersService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
         String authHeader = request.getHeader("Authorization");
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            throw new UnauthorizedException("Per favore inserisci correttamente il token nell'header");
-        }
+        if (authHeader == null || !authHeader.startsWith("Bearer "))
+            throw new UnauthorizedException("Inserisci correttamente il token nell'header");
 
         String accessToken = authHeader.substring(7);
+
         jwtTools.verifyToken(accessToken);
-        String id = jwtTools.extractIdFromToken(accessToken);
 
-        Optional<User> currentUser = usersRepository.findById(UUID.fromString(id));
-        Optional<Admin> currentAdmin = adminRepository.findById(UUID.fromString(id));
+        String utentiId = jwtTools.extractIdFromToken(accessToken);
+        User currentUser = usersService.findById(UUID.fromString(utentiId));
 
-        if (currentUser.isPresent()) {
-            User currentAuthorized = currentUser.get();
-            setAuthentication(currentAuthorized);
-            System.out.println("Authenticated user: " + currentAuthorized);
-        } else if (currentAdmin.isPresent()) {
-            Admin currentAuthorized = currentAdmin.get();
-            setAuthentication(currentAuthorized);
-            System.out.println("Authenticated admin: " + currentAuthorized);
-        } else {
-            throw new UnauthorizedException("User not found.");
-        }
+        Authentication authentication = new UsernamePasswordAuthenticationToken(currentUser, null, currentUser.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         filterChain.doFilter(request, response);
     }
 
-    private void setAuthentication(Object currentAuthorized) {
-        Authentication authentication = new UsernamePasswordAuthenticationToken(currentAuthorized, null, ((UserDetails) currentAuthorized).getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-    }
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         AntPathMatcher pathMatcher = new AntPathMatcher();
-        return pathMatcher.match("/auth/**", request.getServletPath()) ||
-                pathMatcher.match("/provinces/**", request.getServletPath());
+        return pathMatcher.match("/auth/login", request.getServletPath());
     }
 }

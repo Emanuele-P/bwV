@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,30 +23,29 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    public Page<Cliente> getUsers(int pageNumber, int pageSize, String sortBy) {
-        if (pageSize > 100) pageSize = 100;
+    public Page<Cliente> getClienti(int pageNumber, int pageSize, String sortBy) {
+        if (pageSize > 20) pageSize = 20;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
         return clienteRepository.findAll(pageable);
     }
 
     public Cliente save(NewClienteDTO body) {
 
-        this.clienteRepository.findByEmail(body.email()).ifPresent(
+        clienteRepository.findByEmail(body.email()).ifPresent(
 
-                user -> {
+                cliente -> {
                     throw new BadRequestException("L'email " + body.email() + " è già in uso!");
                 }
         );
 
-        this.clienteRepository.findByPec(body.pec()).ifPresent(
+        clienteRepository.findByPec(body.pec()).ifPresent(
 
-                user -> {
+                cliente -> {
                     throw new BadRequestException("La pec " + body.pec() + " è già in uso!");
                 }
         );
 
-        Cliente newCliente = new Cliente(body.ragioneSociale(), body.partitaIva(), body.email(), body.dataInserimento(), body.dataUltimoContatto(), body.fatturatoAnnuale(), body.pec(), body.telefono(), body.emailContatto(), body.nomeContatto(), body.cognomeContatto(), body.telefonoContatto(), body.indirizzo(), body.tipoCliente());
-
+        Cliente newCliente = new Cliente(body.ragioneSociale(), body.partitaIva(), body.email(), body.dataInserimento(), body.dataUltimoContatto(), body.fatturatoAnnuale(), body.pec(), body.telefono(), body.emailContatto(), body.nomeContatto(), body.cognomeContatto(), body.telefonoContatto(), "https://ui-avatars.com/api/?name=" + body.nomeContatto() + "+" + body.cognomeContatto(), body.indirizzo(), body.tipoCliente());
         return clienteRepository.save(newCliente);
     }
 
@@ -66,6 +67,7 @@ public class ClienteService {
         found.setNomeContatto(updatedCliente.nomeContatto());
         found.setCognomeContatto(updatedCliente.cognomeContatto());
         found.setTelefonoContatto(updatedCliente.telefonoContatto());
+        found.setLogoAziendale(updatedCliente.logoAziendale());
         found.setIndirizzo(updatedCliente.indirizzo());
         found.setTipoCliente(updatedCliente.tipoCliente());
 
@@ -75,6 +77,46 @@ public class ClienteService {
     public void findByIdAndDelete(UUID userId) {
         Cliente found = this.findById(userId);
         this.clienteRepository.delete(found);
+    }
+
+//    public Page<Cliente> findByNomeContattoStartingWithIgnoreCase(int pageNumber, int pageSize, String sortBy) {
+//        if (pageSize > 20) pageSize = 20;
+//        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+//        return clienteRepository.findAll(pageable);
+//    }
+//
+//    public Page<Cliente> findByFatturatoAnnuale(int pageNumber, int pageSize, String sortBy) {
+//        if (pageSize > 20) pageSize = 20;
+//        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+//        return clienteRepository.findAll(pageable);
+//    }
+//
+//    public Page<Cliente> findByDataInserimento(int pageNumber, int pageSize, String sortBy) {
+//        if (pageSize > 20) pageSize = 20;
+//        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+//        return clienteRepository.findAll(pageable);
+//    }
+//
+//    public Page<Cliente> findByDataUltimoContatto(int pageNumber, int pageSize, String sortBy) {
+//        if (pageSize > 20) pageSize = 20;
+//        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
+//        return clienteRepository.findAll(pageable);
+//    }
+
+    public List <Cliente> findByFatturatoAnnuale(Long fatturatoAnnuale) {
+        return clienteRepository.findByFatturatoAnnuale(fatturatoAnnuale);
+    }
+
+    public Cliente findByDataInserimento(LocalDate dataInserimento) {
+        return clienteRepository.findByDataInserimento(dataInserimento).orElseThrow(() -> new NotFoundException(dataInserimento));
+    }
+
+    public Cliente findByDataUltimoContatto(LocalDate dataUltimoContatto) {
+        return clienteRepository.findByDataUltimoContatto(dataUltimoContatto).orElseThrow(() -> new NotFoundException(dataUltimoContatto));
+    }
+
+    public Cliente findByNomeContattoStartingWithIgnoreCase(String partialName) {
+        return clienteRepository.findByNomeContattoStartingWithIgnoreCase(partialName).orElseThrow(() -> new NotFoundException(partialName));
     }
 
     public Cliente findByEmail(String email) {

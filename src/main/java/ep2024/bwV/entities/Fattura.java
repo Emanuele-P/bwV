@@ -3,7 +3,7 @@ package ep2024.bwV.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
@@ -16,7 +16,7 @@ public class Fattura {
     @Setter(AccessLevel.NONE)
     @GeneratedValue
     private UUID id;
-    private LocalDateTime data;
+    private LocalDate data;
     private double importo;
     private long numero;
     @ManyToOne
@@ -27,7 +27,7 @@ public class Fattura {
     private Cliente cliente ;
 
 
-    public Fattura(double importo, LocalDateTime data, long numero) {
+    public Fattura(double importo, LocalDate data, long numero) {
         this.importo = importo;
         this.data = data;
         this.numero=numero;
