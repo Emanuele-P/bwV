@@ -75,7 +75,7 @@ public class Cliente {
     private Indirizzo indirizzoSedeOperativa;
 
 
-    public Cliente(String ragioneSociale, int partitaIva, String email, LocalDate dataInserimento, LocalDate dataUltimoContatto, Long fatturatoAnnuale, String pec, String telefono, String emailContatto, String nomeContatto, String cognomeContatto, String telefonoContatto, String logoAziendale, Indirizzo indirizzoSedeLegale, Indirizzo indirizzoSedeOperativa, TipoCliente tipoCliente) {
+    public Cliente(String ragioneSociale, int partitaIva, String email, LocalDate dataInserimento, LocalDate dataUltimoContatto, double fatturatoAnnuale, String pec, String telefono, String emailContatto, String nomeContatto, String cognomeContatto, String telefonoContatto, String logoAziendale, Indirizzo indirizzoSedeLegale, Indirizzo indirizzoSedeOperativa, TipoCliente tipoCliente) {
         this.ragioneSociale = ragioneSociale;
         this.partitaIva = partitaIva;
         this.email = email;

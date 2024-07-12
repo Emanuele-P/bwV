@@ -18,8 +18,8 @@ public record NewClienteDTO(
         LocalDate dataInserimento,
         @NotNull
         LocalDate dataUltimoContatto,
-        @NotNull
-        Long fatturatoAnnuale,
+
+        double fatturatoAnnuale,
         @NotEmpty
         String pec,
         @NotEmpty

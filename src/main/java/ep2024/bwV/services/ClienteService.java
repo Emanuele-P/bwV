@@ -61,7 +61,7 @@ public class ClienteService {
                 body.email(),
                 body.dataInserimento(),
                 body.dataUltimoContatto(),
-                null,
+                body.fatturatoAnnuale(),
                 body.pec(),
                 body.telefono(),
                 body.emailContatto(),
