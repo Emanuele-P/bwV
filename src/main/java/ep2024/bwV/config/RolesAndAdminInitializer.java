@@ -49,12 +49,12 @@ public void initializeRolesAndAdminUser() {
                 Role adminRole = rolesService.findByName("ADMIN");
                 List<Role> roles = List.of(adminRole);
                 User adminUser = new User(
-                        "testadmin@email.com",
-                        bcrypt.encode("12345"),
-                        "Admin",
+                        "striscialanotizia@gmail.com",
+                        bcrypt.encode("belandi"),
+                        "Gabibbo",
                         "Hammer",
                         "banHammer",
-                        "https://ui-avatars.com/api/?name=Admin+Hammer",
+                        "https://ui-avatars.com/api/?name=Gabibbo+Hammer",
                         roles
                 );
                 usersRepository.save(adminUser);

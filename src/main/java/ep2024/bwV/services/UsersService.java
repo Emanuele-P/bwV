@@ -2,6 +2,7 @@ package ep2024.bwV.services;
 
 import ep2024.bwV.entities.Role;
 import ep2024.bwV.entities.User;
+import ep2024.bwV.exceptions.BadRequestException;
 import ep2024.bwV.exceptions.NotFoundException;
 import ep2024.bwV.payloads.NewUtenteDTO;
 import ep2024.bwV.repositories.UsersRepository;
@@ -36,6 +37,13 @@ public class UsersService {
     }
 
     public User save(NewUtenteDTO body) {
+
+        usersRepository.findByEmail(body.email()).ifPresent(
+                user -> {
+                    throw new BadRequestException("L'email " + body.email() + " è già in uso!");
+                }
+        );
+
         User user = new User();
         user.setEmail(body.email());
         user.setPassword(bcrypt.encode(body.password()));

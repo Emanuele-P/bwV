@@ -31,16 +31,16 @@ public class ClienteService {
 
     public Cliente save(NewClienteDTO body) {
 
-        this.clienteRepository.findByEmail(body.email()).ifPresent(
+        clienteRepository.findByEmail(body.email()).ifPresent(
 
-                user -> {
+                cliente -> {
                     throw new BadRequestException("L'email " + body.email() + " è già in uso!");
                 }
         );
 
-        this.clienteRepository.findByPec(body.pec()).ifPresent(
+        clienteRepository.findByPec(body.pec()).ifPresent(
 
-                user -> {
+                cliente -> {
                     throw new BadRequestException("La pec " + body.pec() + " è già in uso!");
                 }
         );
