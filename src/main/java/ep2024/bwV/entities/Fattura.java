@@ -19,7 +19,8 @@ public class Fattura {
     private LocalDate data;
     private double importo;
     private long numero;
-    @ManyToOne
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "stato_id")
     private StatoFattura stato;
 
