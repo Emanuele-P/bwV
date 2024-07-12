@@ -45,7 +45,7 @@ public class ClienteController {
         clienteService.findByIdAndDelete(id);
     }
 
-    //Get all
+    // Get all
     @GetMapping
     public Page<Cliente> getAllClienti(
             @RequestParam(defaultValue = "0") int page,
@@ -55,9 +55,13 @@ public class ClienteController {
             @RequestParam(required = false) Double fatturatoAnnuale,
             @RequestParam(required = false) LocalDate dataInserimento,
             @RequestParam(required = false) LocalDate dataUltimoContatto,
-            @RequestParam(required = false) String provincia
+            @RequestParam(required = false) String provincia,
+            @RequestParam(required = false) Double minFatturatoAnnuale,
+            @RequestParam(required = false) LocalDate specificDataInserimento,
+            @RequestParam(required = false) LocalDate specificDataUltimoContatto
     ) {
-        Specification<Cliente> spec = ClienteSpecification.getClientesByFilters(nome, fatturatoAnnuale, dataInserimento, dataUltimoContatto, provincia);
+        Specification<Cliente> spec = ClienteSpecification.getClientesByFilters(
+                nome, fatturatoAnnuale, dataInserimento, dataUltimoContatto, provincia, minFatturatoAnnuale, specificDataInserimento, specificDataUltimoContatto);
         return clienteService.getClienti(page, size, sortBy, spec);
     }
 
