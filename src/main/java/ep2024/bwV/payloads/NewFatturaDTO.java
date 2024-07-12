@@ -9,7 +9,7 @@ public record NewFatturaDTO(
         @NotNull
         LocalDate data,
         @NotNull
-        long numero,
-        @NotNull
-        double importo) {
+        double importo,
+        String stato
+) {
 }

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public record NewClienteDTO(
         @NotEmpty
@@ -33,9 +34,14 @@ public record NewClienteDTO(
         String telefonoContatto,
 
         String logoAziendale,
-        @NotEmpty
-        String indirizzo,
 
-        TipoCliente tipoCliente
+        TipoCliente tipoCliente,
+
+        @NotNull
+        UUID indirizzoSedeLegaleId,
+
+        @NotNull
+        UUID indirizzoSedeOperativaId
+
 ) {
 }
