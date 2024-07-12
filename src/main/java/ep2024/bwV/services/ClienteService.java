@@ -8,6 +8,7 @@ import ep2024.bwV.exceptions.NotFoundException;
 import ep2024.bwV.payloads.NewClienteDTO;
 import ep2024.bwV.repositories.ClienteRepository;
 import ep2024.bwV.repositories.IndirizzoRepository;
+import ep2024.bwV.tools.MailgunSender;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,7 +23,8 @@ import java.util.UUID;
 
 @Service
 public class ClienteService {
-
+    @Autowired
+    MailgunSender mailgunSender
     @Autowired
     private ClienteRepository clienteRepository;
 
@@ -73,8 +75,10 @@ public class ClienteService {
                 sedeOperativa,
                 body.tipoCliente()
         );
+        Cliente saved =  clienteRepository.save(newCliente);
+        mailgunSender.sendRegistrationEmail(saved);
 
-        return clienteRepository.save(newCliente);
+        return saved ;
     }
 
     public Cliente findById(UUID userId) {
