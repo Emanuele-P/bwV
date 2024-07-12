@@ -18,18 +18,21 @@ public class IndirizziController {
 
     //SAVE
     @PostMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Indirizzo saveAddress(@RequestBody NewAdressDTO body) {
         return indirizziService.saveAddress(body);
     }
 
     //UPDATE
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Indirizzo updateAddress(@PathVariable UUID id, @RequestBody NewAdressDTO body) {
         return indirizziService.updateAddress(id, body);
     }
 
     //DELETE
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteAddress(@PathVariable UUID id) {
         indirizziService.deleteAddress(id);
     }
@@ -43,6 +46,7 @@ public class IndirizziController {
 
     //Find specific
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Indirizzo findAddressById(@PathVariable UUID id) {
         return indirizziService.findById(id);
     }
