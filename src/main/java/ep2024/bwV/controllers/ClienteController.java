@@ -54,40 +54,4 @@ public class ClienteController {
     public Cliente findById(@PathVariable UUID userId) {
         return clienteService.findById(userId);
     }
-
-
-
-//    @GetMapping("/dataInserimento")
-//    public Page<Cliente> getAllByDataInserimento(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "dataInserimento") String sortBy) {
-//        return clienteService.findByDataInserimento(page, size, sortBy);
-//    }
-
-//    @GetMapping("/ultimoContatto")
-//    public Cliente getAllByDataUltimoContatto(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "dataUltimoContatto") String sortBy) {
-//        return clienteService.findByDataUltimoContatto(page, size, sortBy);
-//    }
-
-//    //FINDBYEMAIL fatta solo da admin e user
-//    @GetMapping("/by-email")
-//    public Cliente findByEmail(@PathVariable String email) {
-//        return clienteService.findByEmail(email);
-//    }
-//
-//    @GetMapping("/name")
-//    public Page<Cliente> getAllByNomeContattoStartingWithIgnoreCase(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "nomeContatto") String sortBy) {
-//        return clienteService.findByNomeContattoStartingWithIgnoreCase(page, size, sortBy);
-//    }
-//
-//    @GetMapping("/fatturatoAnnuale")
-//    public List <Cliente> getAllByFatturatoAnnuale(@PathVariable Long fatturatoAnnuale) {
-//        return clienteService.findByFatturatoAnnuale(fatturatoAnnuale);
-//    }
-//
-//    //FINDBYPIVA fatta solo da admin e user
-//    @GetMapping("/by-vatNumber")
-//    public Cliente findByPartitaIva(@PathVariable int partitaIva) {
-//        return clienteService.findByPartitaIva(partitaIva);
-//    }
-
-
 }

@@ -24,7 +24,7 @@ import java.util.UUID;
 @Service
 public class ClienteService {
     @Autowired
-    MailgunSender mailgunSender
+    MailgunSender mailgunSender;
     @Autowired
     private ClienteRepository clienteRepository;
 
