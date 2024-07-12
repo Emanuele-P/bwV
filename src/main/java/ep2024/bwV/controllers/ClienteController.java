@@ -13,7 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -47,12 +46,13 @@ public class ClienteController {
     }
 
     //Get all
+    @GetMapping
     public Page<Cliente> getAllClienti(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(required = false) String nome,
-            @RequestParam(required = false) Long fatturatoAnnuale,
+            @RequestParam(required = false) Double fatturatoAnnuale,
             @RequestParam(required = false) LocalDate dataInserimento,
             @RequestParam(required = false) LocalDate dataUltimoContatto,
             @RequestParam(required = false) String provincia

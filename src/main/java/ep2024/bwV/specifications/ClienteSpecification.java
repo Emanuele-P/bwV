@@ -9,7 +9,7 @@ import java.util.List;
 import jakarta.persistence.criteria.Predicate;
 
 public class ClienteSpecification {
-    public static Specification<Cliente> getClientesByFilters(String nome, Long fatturatoAnnuale, LocalDate dataInserimento, LocalDate dataUltimoContatto, String provincia) {
+    public static Specification<Cliente> getClientesByFilters(String nome, Double fatturatoAnnuale, LocalDate dataInserimento, LocalDate dataUltimoContatto, String provincia) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
@@ -26,7 +26,7 @@ public class ClienteSpecification {
                 predicates.add(criteriaBuilder.equal(root.get("dataUltimoContatto"), dataUltimoContatto));
             }
             if (provincia != null) {
-                predicates.add(criteriaBuilder.equal(root.get("indirizzoSedeLegale").get("provincia"), provincia));
+                predicates.add(criteriaBuilder.equal(root.get("indirizzoSedeLegale").get("localita"), provincia));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
