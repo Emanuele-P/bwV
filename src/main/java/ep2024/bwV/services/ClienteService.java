@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -31,10 +32,10 @@ public class ClienteService {
     @Autowired
     private IndirizzoRepository indirizzoRepository;
 
-    public Page<Cliente> getClienti(int pageNumber, int pageSize, String sortBy) {
+    public Page<Cliente> getClienti(int pageNumber, int pageSize, String sortBy, Specification<Cliente> spec) {
         if (pageSize > 20) pageSize = 20;
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy));
-        return clienteRepository.findAll(pageable);
+        return clienteRepository.findAll(spec, pageable);
     }
 
     public Cliente save(NewClienteDTO body) {
