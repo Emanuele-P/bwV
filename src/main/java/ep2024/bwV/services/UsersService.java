@@ -1,5 +1,7 @@
 package ep2024.bwV.services;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import ep2024.bwV.entities.Role;
 import ep2024.bwV.entities.User;
 import ep2024.bwV.exceptions.BadRequestException;
@@ -13,7 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -29,6 +33,9 @@ public class UsersService {
 
     @Autowired
     private UserRolesService userRolesService;
+
+    @Autowired
+    private Cloudinary cloudinaryUploader;
 
     public Page<User> getUsers(int pageNumber, int pageSize, String sortBy) {
         if (pageSize > 100) pageSize = 100;
@@ -81,5 +88,15 @@ public class UsersService {
 
     public User findByEmail(String email) {
         return usersRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Utente con email " + email + " non trovato!"));
+    }
+
+    public String uploadAvatar(MultipartFile file) throws IOException {
+        return (String) cloudinaryUploader.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+    }
+
+    public User updateAvatar(UUID userId, String url) {
+        User employee = this.findById(userId);
+        employee.setAvatar(url);
+        return usersRepository.save(employee);
     }
 }

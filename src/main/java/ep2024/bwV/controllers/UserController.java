@@ -1,6 +1,5 @@
 package ep2024.bwV.controllers;
 
-import ep2024.bwV.entities.Role;
 import ep2024.bwV.entities.User;
 import ep2024.bwV.payloads.NewUtenteDTO;
 import ep2024.bwV.services.UsersService;
@@ -10,8 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.io.IOException;
 import java.util.UUID;
 
 @RestController
@@ -47,6 +47,13 @@ public class UserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public void findByIdAndDelete(@PathVariable UUID id) {
         usersService.findByIdAndDelete(id);
+    }
+
+    //upload avatar
+    @PostMapping("/{id}/avatar")
+    public User uploadAvatar(@PathVariable UUID id, @RequestParam("avatar") MultipartFile image) throws IOException {
+        String avatarURL = usersService.uploadAvatar(image);
+        return usersService.updateAvatar(id, avatarURL);
     }
 }
 
