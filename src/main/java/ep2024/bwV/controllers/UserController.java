@@ -30,7 +30,7 @@ public class UserController {
     //get all solo admin
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ADMIN')")
+   @PreAuthorize("hasAuthority('ADMIN')")
     public Page<User> getAllUsers(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, @RequestParam(defaultValue = "id") String sortBy) {
         return usersService.getUsers(page, size, sortBy);
     }
@@ -39,15 +39,15 @@ public class UserController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public User findByIdAndUpdate(@PathVariable UUID id, @RequestBody NewUtenteDTO body, List<Role> ruoli) {
-        return usersService.findByIdAndUpdate(id, body, ruoli);
+    public User findByIdAndUpdate(@PathVariable UUID id, @RequestBody NewUtenteDTO body) {
+        return usersService.findByIdAndUpdate(id, body);
     }
 
 
     //delete user admin solo se user
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAuthority('ADMIN')")
+   @PreAuthorize("hasAuthority('ADMIN')")
     public void findByIdAndDelete(@PathVariable UUID id) {
         usersService.findByIdAndDelete(id);
     }

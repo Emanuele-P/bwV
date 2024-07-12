@@ -63,7 +63,7 @@ public class UsersService {
         return usersRepository.findById(userId).orElseThrow(() -> new NotFoundException(userId));
     }
 
-    public User findByIdAndUpdate(UUID userId, NewUtenteDTO updatedUser, List<Role> roles) {
+    public User findByIdAndUpdate(UUID userId, NewUtenteDTO updatedUser) {
         User found = this.findById(userId);
         found.setEmail(updatedUser.email());
         found.setPassword(bcrypt.encode(updatedUser.password()));
@@ -71,7 +71,6 @@ public class UsersService {
         found.setSurname(updatedUser.surname());
         found.setUsername(updatedUser.username());
         found.setAvatar("https://ui-avatars.com/api/?name=" + updatedUser.name() + "+" + updatedUser.surname());
-        found.setRoles(roles);
         return usersRepository.save(found);
     }
 

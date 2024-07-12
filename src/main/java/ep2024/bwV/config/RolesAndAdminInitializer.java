@@ -45,7 +45,7 @@ public void initializeRolesAndAdminUser() {
                 System.out.println("rolesService is initialized");
             }
 
-            if (usersRepository.findByEmail("testadmin@email.com").isEmpty()) {
+            if (usersRepository.findByEmail("striscialanotizia@gmail.com").isEmpty()) {
                 Role adminRole = rolesService.findByName("ADMIN");
                 List<Role> roles = List.of(adminRole);
                 User adminUser = new User(
