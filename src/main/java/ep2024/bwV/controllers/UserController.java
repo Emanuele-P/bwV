@@ -15,10 +15,16 @@ public class UserController {
     @Autowired
     private UsersService usersService;
 
-    //save solo da admin prob edit controller
+    //get my profile
     @GetMapping("/me")
     public User getMyProfile(@AuthenticationPrincipal User loggedUser) {
         return usersService.findById(loggedUser.getId());
     }
+
+    //get all solo admin
+
+    //update users admin
+
+    //delete user admin solo se user
 }
 
