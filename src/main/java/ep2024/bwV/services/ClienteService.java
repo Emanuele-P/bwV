@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
@@ -78,22 +77,22 @@ public class ClienteService {
     public Cliente findById(UUID userId) {
         return this.clienteRepository.findById(userId).orElseThrow(() -> new NotFoundException(userId));
     }
-
-    public Cliente findByFatturatoAnnuale(Long fatturatoAnnuale) {
-        return clienteRepository.findByFatturatoAnnuale(fatturatoAnnuale).orElseThrow(() -> new NotFoundException(fatturatoAnnuale));
-    }
-
-    public Cliente findByDataInserimento(LocalDate dataInserimento) {
-        return clienteRepository.findByDataInserimento(dataInserimento).orElseThrow(() -> new NotFoundException(dataInserimento));
-    }
-
-    public Cliente findByDataUltimoContatto(LocalDate dataUltimoContatto) {
-        return clienteRepository.findByDataUltimoContatto(dataUltimoContatto).orElseThrow(() -> new NotFoundException(dataUltimoContatto));
-    }
-
-    public Cliente findByNomeContattoStartingWithIgnoreCase(String partialName) {
-        return clienteRepository.findByNomeContattoStartingWithIgnoreCase(partialName).orElseThrow(() -> new NotFoundException(partialName));
-    }
+//
+//    public Cliente findByFatturatoAnnuale(Long fatturatoAnnuale) {
+//        return clienteRepository.findByFatturatoAnnuale(fatturatoAnnuale).orElseThrow(() -> new NotFoundException(fatturatoAnnuale));
+//    }
+//
+//    public Cliente findByDataInserimento(LocalDate dataInserimento) {
+//        return clienteRepository.findByDataInserimento(dataInserimento).orElseThrow(() -> new NotFoundException(dataInserimento));
+//    }
+//
+//    public Cliente findByDataUltimoContatto(LocalDate dataUltimoContatto) {
+//        return clienteRepository.findByDataUltimoContatto(dataUltimoContatto).orElseThrow(() -> new NotFoundException(dataUltimoContatto));
+//    }
+//
+//    public Cliente findByNomeContattoStartingWithIgnoreCase(String partialName) {
+//        return clienteRepository.findByNomeContattoStartingWithIgnoreCase(partialName).orElseThrow(() -> new NotFoundException(partialName));
+//    }
 
     public Cliente findByIdAndUpdate(UUID userId, NewClienteDTO updatedCliente) {
         Cliente found = this.findById(userId);
