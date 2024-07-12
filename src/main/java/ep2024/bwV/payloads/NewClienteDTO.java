@@ -13,25 +13,25 @@ public record NewClienteDTO(
         int partitaIva,
         @NotEmpty
         String email,
-        @NotEmpty
+        @NotNull
         LocalDate dataInserimento,
-        @NotEmpty
+        @NotNull
         LocalDate dataUltimoContatto,
-        @NotEmpty
+        @NotNull
         Long fatturatoAnnuale,
         @NotEmpty
         String pec,
-        @NotNull
-        int telefono,
+        @NotEmpty
+        String telefono,
         @NotEmpty
         String emailContatto,
         @NotEmpty
         String nomeContatto,
         @NotEmpty
         String cognomeContatto,
-        @NotNull
-        int telefonoContatto,
         @NotEmpty
+        String telefonoContatto,
+
         String logoAziendale,
         @NotEmpty
         String indirizzo,

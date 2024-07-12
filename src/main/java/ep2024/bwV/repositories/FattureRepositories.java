@@ -23,6 +23,4 @@ public interface FattureRepositories extends JpaRepository<Fattura, UUID> {
     List<Fattura> findAll();
 
     List<Fattura> findByCliente(Cliente cliente);
-//    @Query("SELECT f.stato FROM Fattura f WHERE f.id = :fatturaId")
-//    StatoFattura findStatoByFatturaId(@Param("fatturaId") UUID fatturaId);
 }
