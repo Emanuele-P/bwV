@@ -38,7 +38,7 @@ public class Cliente {
     private LocalDate dataUltimoContatto;
 
     @Column(name = "fatturato_annuale")
-    private Long fatturatoAnnuale;
+    private double fatturatoAnnuale;
 
     private String pec;
 
@@ -92,5 +92,9 @@ public class Cliente {
         this.indirizzoSedeLegale = indirizzoSedeLegale;
         this.indirizzoSedeOperativa = indirizzoSedeOperativa;
         this.tipoCliente = tipoCliente;
+    }
+
+    public void setFatturatoAnnuale(double fatturatoAnnuale) {
+        this.fatturatoAnnuale += fatturatoAnnuale;
     }
 }
