@@ -78,6 +78,12 @@ public class ClienteService {
         Cliente found = this.findById(userId);
         this.clienteRepository.delete(found);
     }
+    public void updateFatturato(UUID clienteId,double importo){
+        Cliente cliente = this.findById(clienteId);
+        cliente.setFatturatoAnnuale(importo);
+        this.clienteRepository.save(cliente);
+
+    }
 
 //    public Page<Cliente> findByNomeContattoStartingWithIgnoreCase(int pageNumber, int pageSize, String sortBy) {
 //        if (pageSize > 20) pageSize = 20;

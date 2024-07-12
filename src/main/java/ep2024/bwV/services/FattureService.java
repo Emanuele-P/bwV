@@ -4,6 +4,7 @@ import ep2024.bwV.entities.Cliente;
 import ep2024.bwV.entities.Fattura;
 import ep2024.bwV.exceptions.BadRequestException;
 import ep2024.bwV.exceptions.NotFoundException;
+import ep2024.bwV.payloads.NewClienteDTO;
 import ep2024.bwV.payloads.NewFatturaDTO;
 import ep2024.bwV.repositories.ClienteRepository;
 import ep2024.bwV.repositories.FattureRepositories;
@@ -23,6 +24,8 @@ public class FattureService {
     private FattureRepositories fattureRepositories;
     @Autowired
     private ClienteRepository clienteRepository;
+    @Autowired
+    private ClienteService clienteService;
 
     public Page<Fattura> getFatture(int pageNumber, int pageSize, String sortBy) {
         if (pageSize > 50) pageSize = 50;
@@ -41,6 +44,9 @@ public class FattureService {
 
         Fattura newFattura = new Fattura(body.importo(), body.data(), body.numero());
         newFattura.setCliente(cliente);
+        clienteService.updateFatturato(clienteId,newFattura.getImporto());
+
+
         return fattureRepositories.save(newFattura);
     }
 
