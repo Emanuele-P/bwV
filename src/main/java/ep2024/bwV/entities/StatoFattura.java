@@ -16,24 +16,14 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 public class StatoFattura {
-@Id
-@Setter(AccessLevel.NONE)
-@GeneratedValue
-private UUID id;
-private boolean caricato;
-private boolean in_gestione;
-private boolean consegnato;
-private boolean controllato;
+    @Id
+    @Setter(AccessLevel.NONE)
+    @GeneratedValue
+    private UUID id;
 
-    @OneToMany(mappedBy = "stato")
-    @JsonIgnore
-    private List<Fattura> fattura;
+    private String stato;
 
-    public StatoFattura(boolean controllato, boolean caricato, boolean in_gestione, boolean consegnato) {
-        this.controllato = controllato;
-        this.caricato = caricato;
-        this.in_gestione = in_gestione;
-        this.consegnato = consegnato;
-
+    public StatoFattura(String stato) {
+        this.stato = stato;
     }
 }

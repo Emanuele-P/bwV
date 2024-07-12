@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface StatoFattureRepositories extends JpaRepository<StatoFattura, UUID> {
-    Optional<StatoFattura> findById(UUID id);
+public interface StatoFattureRepository extends JpaRepository<StatoFattura, UUID> {
+    Optional<StatoFattura> findByStato(String stato);
 }

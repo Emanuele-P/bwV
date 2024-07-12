@@ -59,8 +59,6 @@ public class Cliente {
     @Column(name = "logo_aziendale")
     private String logoAziendale;
 
-    private String indirizzo;
-
     @Enumerated(EnumType.STRING)
     private TipoCliente tipoCliente;
 
@@ -68,8 +66,16 @@ public class Cliente {
     @JsonIgnore
     private List<Fattura> fatture;
 
+    @OneToOne
+    @JoinColumn(name = "indirizzo_sede_legale_id")
+    private Indirizzo indirizzoSedeLegale;
 
-    public Cliente(String ragioneSociale, int partitaIva, String email, LocalDate dataInserimento, LocalDate dataUltimoContatto, Long fatturatoAnnuale, String pec, String telefono, String emailContatto, String nomeContatto, String cognomeContatto, String telefonoContatto, String logoAziendale, String indirizzo, TipoCliente tipoCliente) {
+    @OneToOne
+    @JoinColumn(name = "indirizzo_sede_operativa_id")
+    private Indirizzo indirizzoSedeOperativa;
+
+
+    public Cliente(String ragioneSociale, int partitaIva, String email, LocalDate dataInserimento, LocalDate dataUltimoContatto, Long fatturatoAnnuale, String pec, String telefono, String emailContatto, String nomeContatto, String cognomeContatto, String telefonoContatto, String logoAziendale, Indirizzo indirizzoSedeLegale, Indirizzo indirizzoSedeOperativa, TipoCliente tipoCliente) {
         this.ragioneSociale = ragioneSociale;
         this.partitaIva = partitaIva;
         this.email = email;
@@ -83,7 +89,8 @@ public class Cliente {
         this.cognomeContatto = cognomeContatto;
         this.telefonoContatto = telefonoContatto;
         this.logoAziendale = logoAziendale;
-        this.indirizzo = indirizzo;
+        this.indirizzoSedeLegale = indirizzoSedeLegale;
+        this.indirizzoSedeOperativa = indirizzoSedeOperativa;
         this.tipoCliente = tipoCliente;
     }
 }
