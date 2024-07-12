@@ -38,7 +38,7 @@ public class Cliente {
     private LocalDate dataUltimoContatto;
 
     @Column(name = "fatturato_annuale")
-    private Long fatturatoAnnuale;
+    private double fatturatoAnnuale;
 
     private String pec;
 
@@ -75,7 +75,7 @@ public class Cliente {
     private Indirizzo indirizzoSedeOperativa;
 
 
-    public Cliente(String ragioneSociale, int partitaIva, String email, LocalDate dataInserimento, LocalDate dataUltimoContatto, Long fatturatoAnnuale, String pec, String telefono, String emailContatto, String nomeContatto, String cognomeContatto, String telefonoContatto, String logoAziendale, Indirizzo indirizzoSedeLegale, Indirizzo indirizzoSedeOperativa, TipoCliente tipoCliente) {
+    public Cliente(String ragioneSociale, int partitaIva, String email, LocalDate dataInserimento, LocalDate dataUltimoContatto, double fatturatoAnnuale, String pec, String telefono, String emailContatto, String nomeContatto, String cognomeContatto, String telefonoContatto, String logoAziendale, Indirizzo indirizzoSedeLegale, Indirizzo indirizzoSedeOperativa, TipoCliente tipoCliente) {
         this.ragioneSociale = ragioneSociale;
         this.partitaIva = partitaIva;
         this.email = email;
@@ -92,5 +92,9 @@ public class Cliente {
         this.indirizzoSedeLegale = indirizzoSedeLegale;
         this.indirizzoSedeOperativa = indirizzoSedeOperativa;
         this.tipoCliente = tipoCliente;
+    }
+
+    public void setFatturatoAnnuale(double fatturatoAnnuale) {
+        this.fatturatoAnnuale += fatturatoAnnuale;
     }
 }

@@ -28,6 +28,8 @@ public class FattureService {
     private ClienteRepository clienteRepository;
     @Autowired
     private StatoFattureRepository statoFattureRepository;
+    @Autowired
+    private ClienteService clienteService;
 
     public Page<Fattura> getFatture(UUID clienteId, int pageNumber, int pageSize, String sortBy) {
         if (pageSize > 50) pageSize = 50;
@@ -52,7 +54,7 @@ public class FattureService {
         Fattura newFattura = new Fattura(body.importo(), body.data(), numero);
         newFattura.setCliente(cliente);
         newFattura.setStato(statoFattura);
-
+        clienteService.updateFatturato(clienteId,newFattura.getImporto());
         return fattureRepository.save(newFattura);
     }
 
@@ -85,18 +87,4 @@ public class FattureService {
         fattureRepository.delete(existingFattura);
     }
 
-
-
-
-    public double getFatturatoAnnuale(UUID clienteId) {
-        Cliente cliente = clienteRepository.findById(clienteId)
-                .orElseThrow(() -> new NotFoundException("User not found"));
-
-        List<Fattura> fatture = fattureRepository.findByCliente(cliente);
-        double somma = 0.0;
-        for (Fattura fattura : fatture) {
-            somma += fattura.getImporto();
-        }
-        return somma;
-    }
 }
