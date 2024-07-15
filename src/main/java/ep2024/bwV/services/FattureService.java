@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -43,6 +42,11 @@ public class FattureService {
     }
 
     public Fattura save(NewFatturaDTO body, UUID clienteId) {
+
+        if (body.importo() < 0) {
+            throw new IllegalArgumentException("L'importo della fattura non può essere minore di 0!");
+        }
+
         Cliente cliente = clienteRepository.findById(clienteId)
                 .orElseThrow(() -> new NotFoundException("Cliente not found"));
 
@@ -54,7 +58,7 @@ public class FattureService {
         Fattura newFattura = new Fattura(body.importo(), body.data(), numero);
         newFattura.setCliente(cliente);
         newFattura.setStato(statoFattura);
-        clienteService.updateFatturato(clienteId,newFattura.getImporto());
+        clienteService.updateFatturato(clienteId, newFattura.getImporto());
         return fattureRepository.save(newFattura);
     }
 
